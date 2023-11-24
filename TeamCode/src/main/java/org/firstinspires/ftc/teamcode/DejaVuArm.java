@@ -44,8 +44,8 @@ public class DejaVuArm {
         armMotor2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         intakeMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        armMotor1.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor1.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        armMotor2.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     private void resetDCMotor(DcMotorEx a){

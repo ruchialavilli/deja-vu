@@ -83,7 +83,7 @@ public class GamePadOpMode extends LinearOpMode {
 //                telemetry.addData("GP1 drive set to:", "" + drive);
 //                telemetry.addData("GP1 turn set to:", "" + turn);
 
-                if (gamepad1.left_trigger > 0.5) {
+                if (gamepad1.left_bumper) {
                     leftPower = leftPower *0.4;
                     rightPower = rightPower *0.4;
                     turnPower = turnPower *0.4;
@@ -92,10 +92,10 @@ public class GamePadOpMode extends LinearOpMode {
                 if (gamepad1.right_stick_x != 0) {
                     robot.turnRobot(turnPower);
                 } else {
-                    robot.arm.armMotor1.setPower(leftPower);
+                    robot.leftFrontMotor.setPower(leftPower);
                     robot.rightFrontMotor.setPower(rightPower);
                     robot.rightBackMotor.setPower(leftPower);
-                    robot.arm.armMotor2.setPower(rightPower);
+                    robot.leftBackMotor.setPower(rightPower);
                 }
 
 
@@ -110,16 +110,32 @@ public class GamePadOpMode extends LinearOpMode {
 
     private Runnable gp2Runnable = new Runnable() {
         public void run() {
-            while (opModeIsActive()) {
+            float slideD, slideU;
 
-                float slideL = gamepad1.left_trigger;
-                float slideR = gamepad1.right_trigger;
-                if (gamepad1.left_trigger < threshholdConst) slideL = 0;
-                if (gamepad1.left_trigger > 1 - threshholdConst) slideL = 1;
-                if (gamepad1.right_trigger < threshholdConst) slideR = 0;
-                if (gamepad1.right_trigger > 1 - threshholdConst) slideR = 1;
-                robot.arm.armMotor1.setPower(slideL*0.5);
-                robot.arm.armMotor2.setPower(-slideR*0.5);
+            while (opModeIsActive()) {
+                slideD = gamepad2.left_trigger;
+                slideU = gamepad2.right_trigger;
+
+                if (gamepad2.left_trigger < threshholdConst) slideD = 0;
+
+                if (gamepad2.left_trigger > 1 - threshholdConst){
+                    slideD = 1;
+                    telemetry.addData("GP2 Input", "Left Trigger");
+                    telemetry.addData("GP2 Input level", "Slides up");
+                }
+
+                if (gamepad2.right_trigger < threshholdConst) slideU = 0;
+
+                if (gamepad2.right_trigger > 1 - threshholdConst){
+                    slideU = 1;
+                    telemetry.addData("GP2 Input", "Right Trigger");
+                    telemetry.addData("GP2 Input level", "Slides down");
+                }
+
+                robot.arm.armMotor1.setPower(slideD*2);
+                robot.arm.armMotor2.setPower(slideD*2);
+                robot.arm.armMotor1.setPower(-slideU*2);
+                robot.arm.armMotor2.setPower(-slideU*2);
 
                 telemetry.addData("GP2 Status", "Completed");
                 telemetry.addData("GP2 left armMotor encoder value", robot.arm.armMotor1.getCurrentPosition());
@@ -138,15 +154,15 @@ public class GamePadOpMode extends LinearOpMode {
 
                 //Intake controls
                 if(gamepad1.right_bumper){
-                    telemetry.addData("GP2 Input", "Right Bumper");
-                    telemetry.addData("GP2 Input level", "Intake - On");
+                    telemetry.addData("GP1 Input", "Right Bumper");
+                    telemetry.addData("GP1 Input level", "Intake - On");
                     robot.arm.intakeMotor.setPower(-0.9);;
                 } else if(gamepad1.right_trigger != 0){
-                    telemetry.addData("GP2 Input", "Right Trigger");
-                    telemetry.addData("GP2 Input level", "Intake - Off");
+                    telemetry.addData("GP1 Input", "Right Trigger");
+                    telemetry.addData("GP1 Input level", "Intake - Off");
                     robot.arm.intakeMotor.setPower(0);;
                 }else {
-                    telemetry.addData("GP2 Input", "Unknown Ignoring");
+                    telemetry.addData("GP1 Input", "Unknown Ignoring");
                 }
 
                 telemetry.update();
