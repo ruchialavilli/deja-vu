@@ -113,6 +113,7 @@ public class GamePadOpMode extends LinearOpMode {
             float slideD, slideU;
 
             while (opModeIsActive()) {
+
                 slideD = gamepad2.left_trigger;
                 slideU = gamepad2.right_trigger;
 
@@ -136,6 +137,15 @@ public class GamePadOpMode extends LinearOpMode {
                 robot.arm.armMotor2.setPower(slideD*2);
                 robot.arm.armMotor1.setPower(-slideU*2);
                 robot.arm.armMotor2.setPower(-slideU*2);
+
+                while(slideD == 0 && slideU == 0){
+                    int currPos1 = robot.arm.armMotor1.getCurrentPosition();
+                    int currPos2 = robot.arm.armMotor2.getCurrentPosition();
+
+
+
+
+                }
 
                 telemetry.addData("GP2 Status", "Completed");
                 telemetry.addData("GP2 left armMotor encoder value", robot.arm.armMotor1.getCurrentPosition());

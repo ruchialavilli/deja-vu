@@ -96,8 +96,8 @@ public class DejaVuBot {
 
 
         // Initializing base chassis direction
-        leftFrontMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        rightFrontMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        leftFrontMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        rightFrontMotor.setDirection(DcMotorEx.Direction.REVERSE);
         leftBackMotor.setDirection(DcMotorEx.Direction.FORWARD);
         rightBackMotor.setDirection(DcMotorEx.Direction.FORWARD);
 

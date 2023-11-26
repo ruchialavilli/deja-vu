@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /*
- * Sample tracking wheel localizer implementation assuming the standard configuration:
+ * Sample tracking wheel localizer implementation assuming the standard configuration: ***three wheel
  *
  *    /--------------\
  *    |     ____     |
@@ -32,8 +32,8 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     public static double WHEEL_RADIUS = 0.75; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 10.9375; // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = 9.625; // in; offset of the lateral wheel
+    public static double LATERAL_DISTANCE = 11.8125; // in; distance between the left and right wheels
+    public static double FORWARD_OFFSET = 10.75; // in; offset of the lateral wheel
 
     public static double X_MULTIPLIER = 0.9494185832; // Multiplier in the X direction
     public static double Y_MULTIPLIER = 0.9547744591; // Multiplier in the Y direction
