@@ -118,6 +118,7 @@ public class GamePadOpMode extends LinearOpMode {
             int con = 5;
 
             while (opModeIsActive()) {
+                //TODO: if necessary, make dpad on gp2 move slides to pos 0
 
                 slideD = gamepad2.left_trigger;
                 slideU = gamepad2.right_trigger;
@@ -132,7 +133,7 @@ public class GamePadOpMode extends LinearOpMode {
                 if (gamepad2.left_trigger > 1 - threshholdConst){
                     slideD = 1;
                     telemetry.addData("GP2 Input", "Left Trigger");
-                    telemetry.addData("GP2 Input level", "Slides up");
+                    telemetry.addData("GP2 Input level", "Slides Down");
                 }
 
                 if (gamepad2.right_trigger < threshholdConst) slideU = 0;
@@ -140,7 +141,7 @@ public class GamePadOpMode extends LinearOpMode {
                 if (gamepad2.right_trigger > 1 - threshholdConst){
                     slideU = 1;
                     telemetry.addData("GP2 Input", "Right Trigger");
-                    telemetry.addData("GP2 Input level", "Slides down");
+                    telemetry.addData("GP2 Input level", "Slides Up");
                 }
 
                 if(gamepad2.right_bumper){
@@ -148,10 +149,10 @@ public class GamePadOpMode extends LinearOpMode {
 
                 }
 
-                robot.arm.armMotor1.setPower(slideD*con);
-                robot.arm.armMotor2.setPower(slideD*con);
-                robot.arm.armMotor1.setPower(-slideU*con);
-                robot.arm.armMotor2.setPower(-slideU*con);
+                robot.arm.armMotor1.setPower(-slideD*con);
+                robot.arm.armMotor2.setPower(-slideD*con);
+                robot.arm.armMotor1.setPower(slideU*con);
+                robot.arm.armMotor2.setPower(slideU*con);
 
 
                 telemetry.addData("GP2 Status", "Completed");
@@ -170,21 +171,22 @@ public class GamePadOpMode extends LinearOpMode {
             while (opModeIsActive()) {
 
                 //Intake controls
-                if(gamepad1.right_bumper){
-                    telemetry.addData("GP1 Input", "Right Bumper");
-                    telemetry.addData("GP1 Input level", "Intake - On");
-                    robot.arm.intakeMotor.setPower(-0.9);;
-                } else if(gamepad1.right_trigger != 0){
+                if(gamepad1.right_trigger != 0){
                     telemetry.addData("GP1 Input", "Right Trigger");
-                    telemetry.addData("GP1 Input level", "Intake - Off");
-                    robot.arm.intakeMotor.setPower(0);;
-                }else {
-                    telemetry.addData("GP1 Input", "Unknown Ignoring");
+                    telemetry.addData("GP1 Input level", "Intake");
+                    robot.arm.intakeMotor.setPower(-0.9);
+                }else if(gamepad1.left_trigger != 0){
+                    telemetry.addData("GP1 Input", "Left Trigger");
+                    telemetry.addData("GP1 Input level", "Outtake");
+                    robot.arm.intakeMotor.setPower(0.9);
+                } else {
+                    telemetry.addData("GP1 Input", "Trigger Off");
+                    robot.arm.intakeMotor.setPower(0);
                 }
 
                 if(gamepad2.a){
                     telemetry.addData("GP2 Input", "A");
-                    telemetry.addData("GP2 Input level", "Bucket Out");//***change when sprockets
+                    telemetry.addData("GP2 Input level", "Bucket Out");//TODO: change when sprockets
                     robot.arm.axon_right.setPosition(SERVO_UP);
 
                 } else if (gamepad2.b){
