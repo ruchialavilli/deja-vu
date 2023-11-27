@@ -14,6 +14,9 @@ public class DejaVuArm {
     public DcMotorEx armMotor1 = null; //left
     public DcMotorEx armMotor2 = null; //right
     public DcMotorEx intakeMotor = null;
+    public Servo axon_right = null;
+    public Servo hook_right = null;
+
 
     public Servo gripperServo = null;
     static final double PULSES_PER_REVOLUTION = 751.8;
@@ -34,9 +37,12 @@ public class DejaVuArm {
     public void init(HardwareMap hMap, boolean isAuton) {
         this.isAuton = isAuton;
         this.hwMap = hMap;
+
         this.armMotor1 = hwMap.get(DcMotorEx.class, "leftArmMotor");
         this.armMotor2= hwMap.get(DcMotorEx.class, "rightArmMotor");
         this.intakeMotor = hwMap.get(DcMotorEx.class, "intakeMotor");
+        this.axon_right = hwMap.servo.get("axonRight");
+        this.hook_right = hwMap.servo.get("hookRight");
 
         armMotor2.setDirection(DcMotorSimple.Direction.REVERSE);
 

@@ -18,6 +18,10 @@ public class GamePadOpMode extends LinearOpMode {
     private boolean isBlue = true;
     static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
+    public static final double SERVO_DOWN = 0.82;
+    public static final double SERVO_UP = 0.6;
+    public static final double SERVO_LIFTED = 0.62;
+    public static final double SERVO_UNLIFT = 1;
     private Thread gamepad1Thread;
     private Thread gamepad2Thread;
     private Thread pickUpThread;
@@ -111,11 +115,17 @@ public class GamePadOpMode extends LinearOpMode {
     private Runnable gp2Runnable = new Runnable() {
         public void run() {
             float slideD, slideU;
+            int con = 5;
 
             while (opModeIsActive()) {
 
                 slideD = gamepad2.left_trigger;
                 slideU = gamepad2.right_trigger;
+
+                while(gamepad2.left_trigger < threshholdConst && gamepad2.right_trigger < threshholdConst){
+                    robot.arm.armMotor1.setPower(0);
+                    robot.arm.armMotor2.setPower(0);
+                }
 
                 if (gamepad2.left_trigger < threshholdConst) slideD = 0;
 
@@ -133,19 +143,16 @@ public class GamePadOpMode extends LinearOpMode {
                     telemetry.addData("GP2 Input level", "Slides down");
                 }
 
-                robot.arm.armMotor1.setPower(slideD*2);
-                robot.arm.armMotor2.setPower(slideD*2);
-                robot.arm.armMotor1.setPower(-slideU*2);
-                robot.arm.armMotor2.setPower(-slideU*2);
-
-                while(slideD == 0 && slideU == 0){
-                    int currPos1 = robot.arm.armMotor1.getCurrentPosition();
-                    int currPos2 = robot.arm.armMotor2.getCurrentPosition();
-
-
-
+                if(gamepad2.right_bumper){
+                    con = 1;
 
                 }
+
+                robot.arm.armMotor1.setPower(slideD*con);
+                robot.arm.armMotor2.setPower(slideD*con);
+                robot.arm.armMotor1.setPower(-slideU*con);
+                robot.arm.armMotor2.setPower(-slideU*con);
+
 
                 telemetry.addData("GP2 Status", "Completed");
                 telemetry.addData("GP2 left armMotor encoder value", robot.arm.armMotor1.getCurrentPosition());
@@ -173,6 +180,28 @@ public class GamePadOpMode extends LinearOpMode {
                     robot.arm.intakeMotor.setPower(0);;
                 }else {
                     telemetry.addData("GP1 Input", "Unknown Ignoring");
+                }
+
+                if(gamepad2.a){
+                    telemetry.addData("GP2 Input", "A");
+                    telemetry.addData("GP2 Input level", "Bucket Out");//***change when sprockets
+                    robot.arm.axon_right.setPosition(SERVO_UP);
+
+                } else if (gamepad2.b){
+                    telemetry.addData("GP2 Input", "B");
+                    telemetry.addData("GP2 Input level", "Return Bucket");
+                    robot.arm.axon_right.setPosition(SERVO_DOWN);
+                }
+                if(gamepad2.x) {
+                    telemetry.addData("GP2 Input", "X");
+                    telemetry.addData("GP2 Input level", "Unlock Pixel");
+                    robot.arm.hook_right.setPosition(SERVO_LIFTED);
+
+                }
+                if (gamepad2.y){
+                    telemetry.addData("GP2 Input", "Y");
+                    telemetry.addData("GP2 Input level", "Lock Pixel");
+                    robot.arm.hook_right.setPosition(SERVO_UNLIFT);
                 }
 
                 telemetry.update();
