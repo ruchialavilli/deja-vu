@@ -18,8 +18,8 @@ public class GamePadOpMode extends LinearOpMode {
     private boolean isBlue = true;
     static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
-    public static final double SERVO_DOWN = 0.82;
-    public static final double SERVO_UP = 0.6;
+    public static final double SERVO_DOWN = 0.41;
+    public static final double SERVO_UP = 0.04;
     public static final double SERVO_LIFTED = 0.62;
     public static final double SERVO_UNLIFT = 1;
     private Thread gamepad1Thread;
