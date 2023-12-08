@@ -15,9 +15,6 @@ public class GamePadOpMode extends LinearOpMode {
     DejaVuBot robot = new DejaVuBot();
     private ElapsedTime runtime = new ElapsedTime();
     //look below at isBlue variable every gamepad run
-    private boolean isBlue = true;
-    static final double     FORWARD_SPEED = 0.6;
-    static final double     TURN_SPEED    = 0.5;
     public static final double SERVO_DOWN = 0.41;
     public static final double SERVO_UP = 0.04;
     public static final double SERVO_LIFTED = 0.62;
@@ -103,12 +100,13 @@ public class GamePadOpMode extends LinearOpMode {
                 }
 
 
-                telemetry.addData("GP1 Status", "Completed");
+
 //                telemetry.addData("GP1 Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-                telemetry.addData("GP1 GamePadOpMode", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+                //telemetry.addData("GP1 GamePadOpMode", "Leg 1: %2.5f S Elapsed", runtime.seconds());
                 telemetry.update();
             } //end of while loop
             Log.d(TAG, "Thread 1 finishing up");
+            telemetry.addData("GP1 Status", "Completed");
         }
     };
 
@@ -154,14 +152,21 @@ public class GamePadOpMode extends LinearOpMode {
                 robot.arm.armMotor1.setPower(slideU*con);
                 robot.arm.armMotor2.setPower(slideU*con);
 
+//possible breaking strat                if(robot.arm.armMotor1.getCurrentPosition() <= 300 && robot.arm.armMotor2.getCurrentPosition() <= 300){
+//                    robot.arm.armMotor1.setPower(0);
+//                    robot.arm.armMotor2.setPower(0);
+//                }
 
-                telemetry.addData("GP2 Status", "Completed");
+
                 telemetry.addData("GP2 left armMotor encoder value", robot.arm.armMotor1.getCurrentPosition());
                 telemetry.addData("GP2 right armMotor encoder value", robot.arm.armMotor2.getCurrentPosition());
-                telemetry.addData("GP2 GamePadOpMode", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+                Log.d(TAG, "motor1 current height:" + robot.arm.armMotor1.getCurrentPosition());
+                Log.d(TAG, "motor2 current height:" + robot.arm.armMotor2.getCurrentPosition());
+                //telemetry.addData("GP2 GamePadOpMode", "Leg 1: %2.5f S Elapsed", runtime.seconds());
                 telemetry.update();
             } //end of while loop
             Log.d(TAG, "Thread 2 finishing up");
+            telemetry.addData("GP2 Status", "Completed");
         }
     };
 
@@ -179,31 +184,49 @@ public class GamePadOpMode extends LinearOpMode {
                     telemetry.addData("GP1 Input", "Left Trigger");
                     telemetry.addData("GP1 Input level", "Outtake");
                     robot.arm.intakeMotor.setPower(0.9);
-                } else {
-                    telemetry.addData("GP1 Input", "Trigger Off");
+                }else{
                     robot.arm.intakeMotor.setPower(0);
                 }
 
-                if(gamepad2.a){
-                    telemetry.addData("GP2 Input", "A");
-                    telemetry.addData("GP2 Input level", "Bucket Out");//TODO: change when sprockets
+                if(gamepad2.dpad_down){
+                    telemetry.addData("GP2 Input", "D-pad Down");
+                    telemetry.addData("GP2 Input level", "Bucket Out");
                     robot.arm.axon_right.setPosition(SERVO_UP);
 
-                } else if (gamepad2.b){
-                    telemetry.addData("GP2 Input", "B");
-                    telemetry.addData("GP2 Input level", "Return Bucket");
+                } else if (gamepad2.dpad_up){
+                    telemetry.addData("GP2 Input", "D-pad Up");
+                    telemetry.addData("GP2 Input level", "Bucket Back");
                     robot.arm.axon_right.setPosition(SERVO_DOWN);
                 }
-                if(gamepad2.x) {
-                    telemetry.addData("GP2 Input", "X");
-                    telemetry.addData("GP2 Input level", "Unlock Pixel");
-                    robot.arm.hook_right.setPosition(SERVO_LIFTED);
+
+                //unecessary code but useful for debugging
+//                if(gamepad1.a) {
+//                    robot.arm.hook_right.setPosition(SERVO_UNLIFT);//hold pixel right
+//
+//                }
+//                if (gamepad1.y){
+//                    robot.arm.hook_right.setPosition(SERVO_LIFTED);//release pixel right
+//                }
+//                if(gamepad1.dpad_up) {
+//                    robot.arm.hook_left.setPosition(SERVO_UNLIFT-0.33);//release pixel left
+//
+//                }
+//                if (gamepad1.dpad_down){
+//                    robot.arm.hook_left.setPosition(SERVO_LIFTED-0.33);//hold pixel left
+//                }
+
+                if (gamepad2.a){
+                    telemetry.addData("GP2 Input", "A");
+                    telemetry.addData("GP2 Input level", "Release Pixels");
+                    robot.arm.hook_right.setPosition(SERVO_LIFTED); //release both pixels
+                    robot.arm.hook_left.setPosition(SERVO_UNLIFT-0.33);
 
                 }
                 if (gamepad2.y){
                     telemetry.addData("GP2 Input", "Y");
-                    telemetry.addData("GP2 Input level", "Lock Pixel");
-                    robot.arm.hook_right.setPosition(SERVO_UNLIFT);
+                    telemetry.addData("GP2 Input level", "Hold Pixels");
+                    robot.arm.hook_right.setPosition(SERVO_UNLIFT);//hold both pixels
+                    robot.arm.hook_left.setPosition(SERVO_LIFTED-0.33);
                 }
 
                 telemetry.update();
