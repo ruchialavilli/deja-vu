@@ -27,15 +27,32 @@ public class LineTest extends BaseAutoVisionOpMode {
                     .build();
 
 
-            initTfod();
+
+            robot.arm.axon_right.setPosition(SERVO_DOWN);
+            robot.arm.hook_right.setPosition(SERVO_UNLIFT);//hold both pixels
+            robot.arm.hook_left.setPosition(SERVO_LIFTED-0.33);
+            telemetry.addLine("Robot ready for run");
+            telemetry.update();
 
             waitForStart();
             if(isStopRequested()) return;
 
-            telemetry.addLine("Starting to look for stop sign");
-            findDroppingPosition(true);
+            robot.arm.moveArmToLevel(3);
+            sleep(1000);
+            robot.arm.axon_right.setPosition(SERVO_UP);
+            sleep(1000);
+            robot.arm.moveArmToLevel(2);
+            sleep(1000);
+            robot.arm.hook_right.setPosition(SERVO_LIFTED);
+            sleep(500);
+            robot.arm.moveArmToLevel(3);
+            sleep(1000);
+            robot.arm.axon_right.setPosition(SERVO_DOWN);
+            sleep(500);
+            robot.arm.moveArmToLevel(0);
+            sleep(1500);
 
-            drive.followTrajectory(traj0);
+
 
 
 

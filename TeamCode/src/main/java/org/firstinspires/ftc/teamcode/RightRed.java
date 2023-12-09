@@ -190,13 +190,16 @@ public class RightRed extends BaseAutoVisionOpMode {
             sleep(1000);
             sendMessage(BUCKET_OUT);
             sleep(1000);
+            sendMessage(ACTION_GOTO_LEVEL, 2);
+            sleep(1000);
             sendMessage(DROP_PIXEL_RIGHT);
             sleep(500);
+            sendMessage(ACTION_GOTO_LEVEL, 3);
+            sleep(1000);
             sendMessage(BUCKET_IN);
             sleep(500);
             sendMessage(ACTION_GOTO_LEVEL, 0);
-            sleep(1100);
-
+            sleep(1500);
 
             //move to start pos
             drive.followTrajectory(traj1);
@@ -218,7 +221,7 @@ public class RightRed extends BaseAutoVisionOpMode {
             sleep(1000);
             sendMessage(DROP_PIXEL_LEFT);
             sleep(500);
-            sendMessage(BUCKET_IN);
+            sendMessage(BUCKET_OUT);
             sleep(1000);
             sendMessage(ACTION_GOTO_LEVEL, 0);
             sleep(1100);
