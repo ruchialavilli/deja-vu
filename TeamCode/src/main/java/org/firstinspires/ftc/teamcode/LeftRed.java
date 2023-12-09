@@ -9,8 +9,10 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous(name="LeftRed", group="AutoOpModes")
 public class LeftRed extends BaseAutoOpMode {
-//This code contains the basic chassis movements for the Left Blue Auton Position
+//This code contains the basic chassis movements for the Left Red Auton Position
     public void runOpMode() throws InterruptedException {
+
+            //TODO: test for measurments on field!!!!
 
             /*
             * Series of events:

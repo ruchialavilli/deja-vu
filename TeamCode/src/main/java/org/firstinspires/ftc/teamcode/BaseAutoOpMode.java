@@ -17,6 +17,10 @@ public class BaseAutoOpMode extends LinearOpMode {
     private Orientation lastAngles = new Orientation();
     private double currAngle = 0.0;
     private int allowedAngleDiff = 3;
+    public static final double SERVO_DOWN = 0.41;
+    public static final double SERVO_UP = 0.04;
+    public static final double SERVO_LIFTED = 0.62;
+    public static final double SERVO_UNLIFT = 1;
     protected DejaVuBot robot = new DejaVuBot();
 
     public double getAbsoluteAngle() {

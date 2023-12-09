@@ -96,10 +96,10 @@ public class DejaVuBot {
 
 
         // Initializing base chassis direction
-        leftFrontMotor.setDirection(DcMotorEx.Direction.FORWARD);
-        rightFrontMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        leftBackMotor.setDirection(DcMotorEx.Direction.FORWARD);
-        rightBackMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        leftFrontMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        rightFrontMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        leftBackMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        rightBackMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
     }
     public void gyroInit() {
@@ -165,8 +165,8 @@ public class DejaVuBot {
     public void turnRobot(double turnSpeed) {
         leftFrontMotor.setPower(turnSpeed);
         rightFrontMotor.setPower(-turnSpeed);
-        rightBackMotor.setPower(-turnSpeed);
-        leftBackMotor.setPower(turnSpeed);
+        rightBackMotor.setPower(turnSpeed);
+        leftBackMotor.setPower(-turnSpeed);
     }
 
 

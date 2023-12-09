@@ -41,7 +41,7 @@ public class DejaVuArm {
         level_map.put(0, 0 );//ground
         level_map.put(1, 50);//5 inches off the ground (pick up)
         level_map.put(2, 100);//16 inches - level 1
-        level_map.put(3, 1500);// to be 26 inches - level 2
+        level_map.put(3, 2500);// to be 26 inches - level 2
 
         level_map.put(9, 2900);//to be 36 inches - level 3
         level_map.put(4, 2950);//to be 36 inches - level 3 (auton)
@@ -197,12 +197,12 @@ public class DejaVuArm {
 //            }
 
             currentLevel = level;
-            if(level == 0){
-                armMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                armMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                sendToTelemetry("Reset Motor" );
-                Log.d(TAG, "Reset Motor");
-            }
+//            if(level == 0){
+//                armMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                armMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                sendToTelemetry("Reset Motor" );
+//                Log.d(TAG, "Reset Motor");
+//            }
 
             armMotor1.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             armMotor1.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
