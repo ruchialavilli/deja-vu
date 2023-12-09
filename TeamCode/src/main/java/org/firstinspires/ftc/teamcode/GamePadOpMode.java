@@ -75,11 +75,11 @@ public class GamePadOpMode extends LinearOpMode {
             double turnPower;
 
             while (opModeIsActive()) {
-                drive = (-gamepad1.left_stick_y)*0.75;
-                turn = (gamepad1.left_stick_x)*0.75;
+                drive = (-gamepad1.left_stick_y)*0.9;
+                turn = (gamepad1.left_stick_x)*0.9;
                 leftPower = Range.clip(drive + turn, -1.0, 1.0);
                 rightPower = Range.clip(drive - turn, -1.0, 1.0);
-                turnPower = Range.clip((gamepad1.right_stick_x)*0.8, -1.0, 1.0);
+                turnPower = Range.clip((gamepad1.right_stick_x)*0.85, -1.0, 1.0);
 
 //                telemetry.addData("GP1 drive set to:", "" + drive);
 //                telemetry.addData("GP1 turn set to:", "" + turn);
@@ -178,7 +178,7 @@ public class GamePadOpMode extends LinearOpMode {
                 if(gamepad1.right_trigger != 0){
                     telemetry.addData("GP1 Input", "Right Trigger");
                     telemetry.addData("GP1 Input level", "Intake");
-                    robot.arm.intakeMotor.setPower(-0.9);
+                    robot.arm.intakeMotor.setPower(-1);
                 }else if(gamepad1.left_trigger != 0){
                     telemetry.addData("GP1 Input", "Left Trigger");
                     telemetry.addData("GP1 Input level", "Outtake");
@@ -209,27 +209,27 @@ public class GamePadOpMode extends LinearOpMode {
                     telemetry.addData("GP2 Input level", "Release Right Pixel");
                     robot.arm.hook_right.setPosition(SERVO_LIFTED);//release pixel right
                 }
-                if(gamepad2.dpad_up) {
-                    telemetry.addData("GP2 Input", "Dpad - Up");
+                if(gamepad2.dpad_right) {
+                    telemetry.addData("GP2 Input", "Dpad - Right");
                     telemetry.addData("GP2 Input level", "Release Pixel Left");
                     robot.arm.hook_left.setPosition(SERVO_UNLIFT-0.33);//release pixel left
 
                 }
-                if (gamepad2.dpad_down){
-                    telemetry.addData("GP2 Input", "Dpad - Down");
+                if (gamepad2.dpad_left){
+                    telemetry.addData("GP2 Input", "Dpad - Left");
                     telemetry.addData("GP2 Input level", "Hold Left Pixel");
                     robot.arm.hook_left.setPosition(SERVO_LIFTED-0.33);//hold pixel left
                 }
 
-                if (gamepad2.dpad_left){
-                    telemetry.addData("GP2 Input", "Dpad - Left");
+                if (gamepad2.dpad_up){
+                    telemetry.addData("GP2 Input", "Dpad - Up");
                     telemetry.addData("GP2 Input level", "Release Pixels");
                     robot.arm.hook_right.setPosition(SERVO_LIFTED); //release both pixels
                     robot.arm.hook_left.setPosition(SERVO_UNLIFT-0.33);
 
                 }
-                if (gamepad2.dpad_right){
-                    telemetry.addData("GP2 Input", "Dpad - Right");
+                if (gamepad2.dpad_down){
+                    telemetry.addData("GP2 Input", "Dpad - Dowm");
                     telemetry.addData("GP2 Input level", "Hold Pixels");
                     robot.arm.hook_right.setPosition(SERVO_UNLIFT);//hold both pixels
                     robot.arm.hook_left.setPosition(SERVO_LIFTED-0.33);
