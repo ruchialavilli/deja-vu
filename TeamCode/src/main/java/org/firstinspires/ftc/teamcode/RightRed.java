@@ -33,7 +33,6 @@ public class RightRed extends BaseAutoVisionOpMode {
         private HandlerThread mHandlerThread;
         private Handler armHandler;
 
-        //TODO: MODIFY WITH BACKDROP IN PLACE
         // dropping locations
         // left - april tag 1
         protected static Vector2d location1 = new Vector2d(28, 52);
@@ -46,25 +45,16 @@ public class RightRed extends BaseAutoVisionOpMode {
 
             initTfod();
 
-            //TODO: VISION AUTON ALL FILES
             /*
-            * 1) make Team Obj
-            * 2) test with detections
-            * 3) implement in file
-            * 4) make a find drop pos method
-            * 5) implement find drop pos in files
-            * 6) descoring preventation
-            * */
-            //TODO: Implement a handler to prevent exceptions ALL FILES
-
-            /*
-            * Series of events:
-            * 1. Detect pixel ***
-            * 2. Drop Pixel in corresponsing location
-            * 3. Move to aviod dropped pixel
-            * 4. turn 90
-            * 5. Move to drop pixel held
-            * 6. park
+            * TODO: Series of events:
+            * 1. Copy Over Opmodes
+            * a) Left Red (Long Side) D
+            * b) Left Blue D
+            * c) Right Blue D
+            * 2. ***Adjust The Drop Locations D
+            * 3. Set a WaitTimeMode D
+            * 4. Drop Purple Pixel Right (to the floor)
+            * 5. Drone Launcher
             * */
 
 
@@ -208,8 +198,13 @@ public class RightRed extends BaseAutoVisionOpMode {
             sleep(1100);
 
 
-            //move to backdrop
+            //move to start pos
             drive.followTrajectory(traj1);
+
+            //TODO: sleep to wait for alliance to finish
+            //sleep();
+
+            //move to backdrop
             drive.followTrajectory(traj2);
             drive.followTrajectory(drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
                     .lineTo(locationToDrop)
