@@ -169,7 +169,7 @@ public class BaseAutoVisionOpMode extends BaseAutoOpMode {
         int rightCount = 0;
         int centerCount = 0;
         int leftCount = 0;
-        for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < 10; i++) {
             List<Recognition> updatedRecognitions = tfod.getRecognitions();//tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null && updatedRecognitions.size() > 0) {
                 sendToTelemetry("# Objects Detected", updatedRecognitions.size());
@@ -195,7 +195,7 @@ public class BaseAutoVisionOpMode extends BaseAutoOpMode {
                             leftCount++;
                         }
                     } else {
-                        Log.d(TAG, String.format("%s not detected", detectSign));
+                        Log.d(TAG, String.format("Found %s - not interested", recognition.getLabel()));
                     }
                 }
                 sendToTelemetry("Vision Result", String.format("Found %s(%d)",detectSign, centerCount+rightCount));
@@ -224,6 +224,9 @@ public class BaseAutoVisionOpMode extends BaseAutoOpMode {
             telemetry.addLine("unable to determine dropping location - defaulting to 1");
             droppingPosition = 1;
         }
+
+        // test test - DELETE TODO
+        droppingPosition = 3;
     }
 
     protected void sendToTelemetry(String key, int value){

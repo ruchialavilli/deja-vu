@@ -42,9 +42,10 @@ public class DejaVuArm {
         level_map.put(1, 50);//5 inches off the ground (pick up)
         level_map.put(2, 100);//16 inches - level 1
         level_map.put(3, 2500);// to be 26 inches - level 2
+        level_map.put(4, 1600);//to be 36 inches - level 3 (auton)
 
         level_map.put(9, 2900);//to be 36 inches - level 3
-        level_map.put(4, 2950);//to be 36 inches - level 3 (auton)
+        //level_map.put(4, 2950);//to be 36 inches - level 3 (auton)
 
         level_map.put(5, 707);//getting first cone on stack (auton)
         level_map.put(6, 457);//first cone on stack (auton)

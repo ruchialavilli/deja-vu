@@ -178,11 +178,11 @@ public class GamePadOpMode extends LinearOpMode {
                 if(gamepad1.right_trigger != 0){
                     telemetry.addData("GP1 Input", "Right Trigger");
                     telemetry.addData("GP1 Input level", "Intake");
-                    robot.arm.intakeMotor.setPower(-1);
+                    robot.arm.intakeMotor.setPower(-0.8);
                 }else if(gamepad1.left_trigger != 0){
                     telemetry.addData("GP1 Input", "Left Trigger");
                     telemetry.addData("GP1 Input level", "Outtake");
-                    robot.arm.intakeMotor.setPower(0.9);
+                    robot.arm.intakeMotor.setPower(0.8);
                 }else{
                     robot.arm.intakeMotor.setPower(0);
                 }

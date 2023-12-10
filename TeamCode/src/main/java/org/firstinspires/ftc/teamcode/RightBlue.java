@@ -36,11 +36,11 @@ public class RightBlue extends BaseAutoVisionOpMode {
 
         // dropping locations
         // left - april tag 1
-        protected static Vector2d location1 = new Vector2d(-48, 52);
+        protected static Vector2d location1 = new Vector2d(-48, 40);
         // center - april tag 2
-        protected static Vector2d location2 = new Vector2d(-38, 50);
+        protected static Vector2d location2 = new Vector2d(-38, 40);
         // right - april tag 3
-        protected static Vector2d location3 = new Vector2d(-28, 52);
+        protected static Vector2d location3 = new Vector2d(-28, 40);
 
     public void runOpMode() throws InterruptedException {
 
@@ -109,12 +109,12 @@ public class RightBlue extends BaseAutoVisionOpMode {
 
             //move back to start
             Trajectory traj1 = drive.trajectoryBuilder(traj0.end())
-                    .lineTo(new Vector2d(-62, -36))//60 might be too far
+                    .lineTo(new Vector2d(-60, -36))//60 might be too far
                     .build();
 
             //turn to face 270 deg and then move forward to backdrop level
             Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(90))))
-                    .lineTo(new Vector2d(-52, 52))
+                    .lineTo(new Vector2d(-60, 40))
                     .build();
 
 //            //strafe to backdrop pos
@@ -125,14 +125,14 @@ public class RightBlue extends BaseAutoVisionOpMode {
             //-- drop next pixel and pull down arm
 
             //strafe back to wall
-            Trajectory traj4 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(-4))))
-                    .lineTo(new Vector2d(-62, 52))
+            Trajectory traj4 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 10, Math.toRadians(-4))))
+                    .lineTo(new Vector2d(-16, 50))
                     .build();
 
-            //park
-            Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
-                    .lineTo(new Vector2d(-59, 62))
-                    .build();
+//            //park
+//            Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
+//                    .lineTo(new Vector2d(-59, 62))
+//                    .build();
 
 
 
@@ -213,7 +213,9 @@ public class RightBlue extends BaseAutoVisionOpMode {
             drive.followTrajectory(traj2);
             drive.followTrajectory(drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
                     .lineTo(locationToDrop)
+                    .back(10)
                     .build());
+
 
 
             //now drop yellow on backdrop

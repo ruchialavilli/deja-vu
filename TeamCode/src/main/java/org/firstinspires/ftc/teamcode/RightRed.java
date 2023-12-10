@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TURN_MULTIPLIER;
+
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
@@ -14,6 +16,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(name="RightRed", group="AutoOpModes")
 public class RightRed extends BaseAutoVisionOpMode {
@@ -29,18 +32,18 @@ public class RightRed extends BaseAutoVisionOpMode {
         public static String BUCKET_AUTON_OUT = "bucket_auton_out";
         public static String BUCKET_OUT = "bucket_out";
         public static String BUCKET_IN = "bucket_in";
-        public int angleOffset = 0;
+        public double angleOffset = 0;
 
         private HandlerThread mHandlerThread;
         private Handler armHandler;
 
         // dropping locations
         // left - april tag 1
-        protected static Vector2d location1 = new Vector2d(28, 52);
+        protected static Vector2d location1 = new Vector2d(28, 50);
         // center - april tag 2
         protected static Vector2d location2 = new Vector2d(38, 50);
         // right - april tag 3
-        protected static Vector2d location3 = new Vector2d(48, 52);
+        protected static Vector2d location3 = new Vector2d(42, 50);
 
     public void runOpMode() throws InterruptedException {
 
@@ -107,26 +110,24 @@ public class RightRed extends BaseAutoVisionOpMode {
 
 
             //start
-            Pose2d startPose = new Pose2d(63.375, 16, Math.toRadians(0));
+            Pose2d startPose = new Pose2d(63.375, 13, Math.toRadians(0));
             drive.setPoseEstimate(startPose);
 
             //move to drop pixel
             Trajectory traj0 = drive.trajectoryBuilder(startPose)
-                    .lineTo(new Vector2d(43, 16))
+                    .lineTo(new Vector2d(39, 13))
                     .build();
-
-
 
             //--turn to face one side and drop pixel -- then turn to face normally
 
             //move back to start
             Trajectory traj1 = drive.trajectoryBuilder(traj0.end())
-                    .lineTo(new Vector2d(60, 16))
+                    .lineTo(new Vector2d(60, 13))
                     .build();
 
             //turn to face 270 deg and then move forward to backdrop level
-            Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(280))))
-                    .lineTo(new Vector2d(52, 50))
+            Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(255 * TURN_MULTIPLIER))))
+                    .lineTo(new Vector2d(60, 52))
                     .build();
 
 //            //strafe to backdrop pos
@@ -137,14 +138,14 @@ public class RightRed extends BaseAutoVisionOpMode {
             //-- drop next pixel and pull down arm
 
             //strafe back to wall
-            Trajectory traj4 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(-4))))
-                    .lineTo(new Vector2d(65, 50))
+            Trajectory traj4 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
+                    .lineTo(new Vector2d(65, 52))
                     .build();
 
             //park
-            Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
-                    .lineTo(new Vector2d(60, 62))
-                    .build();
+//            Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
+//                    .lineTo(new Vector2d(60, 62))
+//                    .build();
 
 
 
@@ -169,19 +170,20 @@ public class RightRed extends BaseAutoVisionOpMode {
             parkingLocationFinderThread.join();
 //        Log.d(TAG, "thread joins complete");
 
-            double xOffset = 0;
-            double yOffset = 0;
+            double xOffset = 0,  yOffset = 0;
+            double xDropOffset = 0, yDropOffset = 0;
             if(locationToDrop == location1){
-                    angleOffset = 93;
+                    angleOffset = (90 * TURN_MULTIPLIER);
                     yOffset = -6;
-
+                    yDropOffset = -1;
             }else if(locationToDrop == location3){
-                    angleOffset = -81;
+                    angleOffset = -85;
                     yOffset = 6;
+                    yDropOffset = 2;
             }else{
                     angleOffset = 0;
-                    xOffset = -11;
-
+                    xOffset = -8;
+                    xDropOffset = 2;
             }
 
             if (isStopRequested()) {
@@ -193,27 +195,36 @@ public class RightRed extends BaseAutoVisionOpMode {
             //move forward to pos
 
             drive.followTrajectory(traj0);
-            drive.followTrajectorySequence(drive.trajectorySequenceBuilder(traj0.end().plus(new Pose2d(0, 0, Math.toRadians(angleOffset))))
-                    .lineTo(new Vector2d(43 + xOffset, 15 + yOffset))
-                    .lineTo(new Vector2d(40, 15))
-                    .build());
+
+            TrajectorySequence temp = drive.trajectorySequenceBuilder(traj0.end().plus(new Pose2d(0, 0, Math.toRadians(angleOffset))))
+                    .lineTo(new Vector2d(36 + xOffset, 13 + yOffset))
+                    .lineTo(new Vector2d(36 + xDropOffset, 13 + yDropOffset))
+                    .build();
+            drive.followTrajectorySequence(temp);
 
 
             //now drop purple pixel
-            sendMessage(ACTION_GOTO_LEVEL, 3);
+            sendMessage(ACTION_GOTO_LEVEL, 4);
             sleep(1000);
-            sendMessage(BUCKET_AUTON_OUT);
+            sendMessage(BUCKET_OUT);
             sleep(1000);
             sendMessage(ACTION_GOTO_LEVEL, 2);
             sleep(1000);
             sendMessage(DROP_PIXEL_RIGHT);
             sleep(500);
-            sendMessage(ACTION_GOTO_LEVEL, 3);
+            sendMessage(BUCKET_AUTON_OUT);
+            sleep(1000);
+            sendMessage(ACTION_GOTO_LEVEL, 4);
             sleep(1000);
             sendMessage(BUCKET_IN);
             sleep(500);
             sendMessage(ACTION_GOTO_LEVEL, 0);
             sleep(1500);
+
+            // go back before we return to startpos
+//            drive.followTrajectory(drive.trajectoryBuilder(temp.end())
+//                    .lineTo(new Vector2d(36, 13))
+//                    .build());
 
             //move to start pos
             drive.followTrajectory(traj1);

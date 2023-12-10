@@ -19,7 +19,7 @@ public class BaseAutoOpMode extends LinearOpMode {
     private int allowedAngleDiff = 3;
     public static final double SERVO_DOWN = 0.41;
     public static final double SERVO_UP = 0.04;
-    public static final double SERVO_AUTON_UP = 0.00;
+    public static final double SERVO_AUTON_UP = 0.08;
 
     public static final double SERVO_LIFTED = 0.62;
     public static final double SERVO_UNLIFT = 1;

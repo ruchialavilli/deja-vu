@@ -96,7 +96,7 @@ public class LeftBlue extends BaseAutoVisionOpMode {
 
             //move to drop pixel
             Trajectory traj0 = drive.trajectoryBuilder(startPose)
-                    .lineTo(new Vector2d(-43, 16))
+                    .lineTo(new Vector2d(-39, 16))
                     .build();
 
 
