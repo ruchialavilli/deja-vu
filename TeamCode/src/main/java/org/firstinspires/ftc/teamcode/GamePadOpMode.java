@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -186,7 +187,6 @@ public class GamePadOpMode extends LinearOpMode {
                 }else{
                     robot.arm.intakeMotor.setPower(0);
                 }
-
                 if(gamepad2.right_bumper){
                     telemetry.addData("GP2 Input", "Right Bumper");
                     telemetry.addData("GP2 Input level", "Bucket Out");
@@ -233,6 +233,12 @@ public class GamePadOpMode extends LinearOpMode {
                     telemetry.addData("GP2 Input level", "Hold Pixels");
                     robot.arm.hook_right.setPosition(SERVO_UNLIFT);//hold both pixels
                     robot.arm.hook_left.setPosition(SERVO_LIFTED-0.33);
+                }
+                if (gamepad2.b){
+                    telemetry.addData("GP2 Input", "B");
+                    telemetry.addData("GP2 Input level", "Turn on Slide Breaking");
+                    robot.arm.armMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    robot.arm.armMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 }
 
                 telemetry.update();
