@@ -96,7 +96,7 @@ public class LeftRed extends BaseAutoVisionOpMode {
 
             //move to drop pixel
             Trajectory traj0 = drive.trajectoryBuilder(startPose)
-                    .lineTo(new Vector2d(43, -36))
+                    .lineTo(new Vector2d(36, -36))
                     .build();
 
 
@@ -108,26 +108,26 @@ public class LeftRed extends BaseAutoVisionOpMode {
                     .build();
 
             //turn to face 270 deg and then move forward to backdrop level
-            Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(280))))
-                    .lineTo(new Vector2d(52, 52))
+            Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(-90))))
+                    .lineTo(new Vector2d(60, 40))
                     .build();
 
             //strafe to backdrop pos
-            Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                    .lineTo(new Vector2d(42, 52))
-                    .build();
+//            Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
+//                    .lineTo(new Vector2d(42, 52))
+//                    .build();
 
             //-- drop next pixel and pull down arm
 
             //strafe back to wall
             Trajectory traj4 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(-4))))
-                    .lineTo(new Vector2d(62, 52))
+                    .lineTo(new Vector2d(16, 50))
                     .build();
 
             //park
-            Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
-                    .lineTo(new Vector2d(59, 62))
-                    .build();
+//            Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
+//                    .lineTo(new Vector2d(59, 62))
+//                    .build();
 
 
 
