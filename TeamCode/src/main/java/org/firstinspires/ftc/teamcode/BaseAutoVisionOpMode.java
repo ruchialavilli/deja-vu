@@ -187,9 +187,9 @@ public class BaseAutoVisionOpMode extends BaseAutoOpMode {
                         Log.d(TAG, String.format("- Position (Row/Col): %.0f / %.0f", row, col));
                         Log.d(TAG, String.format("- Size (Width/Height): %.0f / %.0f", width, height));
                         Log.d(TAG, "*************////");
-                        if(col >= 150 && col <= 260){
+                        if(row >= 130 && row <= 312){
                             centerCount++;
-                        }else if(col >= 450 && col <= 500){
+                        }else if(row > 312 && row <= 550){
                             rightCount++;
                         }else{
                             leftCount++;

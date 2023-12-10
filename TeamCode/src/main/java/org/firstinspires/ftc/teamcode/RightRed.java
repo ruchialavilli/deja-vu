@@ -26,9 +26,10 @@ public class RightRed extends BaseAutoVisionOpMode {
         public static String DROP_PIXEL_RIGHT = "release_right";
         public static String DROP_PIXEL_LEFT = "release_left";
         public static String HOLD_BOTH_PIXELS = "hold_pixels";
+        public static String BUCKET_AUTON_OUT = "bucket_auton_out";
         public static String BUCKET_OUT = "bucket_out";
         public static String BUCKET_IN = "bucket_in";
-        public int x = 0;
+        public int angleOffset = 0;
 
         private HandlerThread mHandlerThread;
         private Handler armHandler;
@@ -91,6 +92,9 @@ public class RightRed extends BaseAutoVisionOpMode {
                                     case 333:
                                             robot.arm.axon_right.setPosition(SERVO_UP);
                                             break;
+                                    case 444:
+                                            robot.arm.axon_right.setPosition(SERVO_AUTON_UP);
+                                            break;
                                     default:
 //                        Log.d(TAG, "executing arm action going to level: " + msg.what);
                                             robot.arm.moveArmToLevel(msg.what);
@@ -112,6 +116,7 @@ public class RightRed extends BaseAutoVisionOpMode {
                     .build();
 
 
+
             //--turn to face one side and drop pixel -- then turn to face normally
 
             //move back to start
@@ -121,24 +126,24 @@ public class RightRed extends BaseAutoVisionOpMode {
 
             //turn to face 270 deg and then move forward to backdrop level
             Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(280))))
-                    .lineTo(new Vector2d(52, 52))
+                    .lineTo(new Vector2d(52, 50))
                     .build();
 
-            //strafe to backdrop pos
-            Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                    .lineTo(new Vector2d(42, 52))
-                    .build();
+//            //strafe to backdrop pos
+//            Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
+//                    .lineTo(new Vector2d(42, 52))
+//                    .build();
 
             //-- drop next pixel and pull down arm
 
             //strafe back to wall
             Trajectory traj4 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(-4))))
-                    .lineTo(new Vector2d(62, 52))
+                    .lineTo(new Vector2d(65, 50))
                     .build();
 
             //park
             Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
-                    .lineTo(new Vector2d(59, 62))
+                    .lineTo(new Vector2d(60, 62))
                     .build();
 
 
@@ -164,12 +169,19 @@ public class RightRed extends BaseAutoVisionOpMode {
             parkingLocationFinderThread.join();
 //        Log.d(TAG, "thread joins complete");
 
+            double xOffset = 0;
+            double yOffset = 0;
             if(locationToDrop == location1){
-                    x = 93;
+                    angleOffset = 93;
+                    yOffset = -6;
+
             }else if(locationToDrop == location3){
-                    x = -81;
+                    angleOffset = -81;
+                    yOffset = 6;
             }else{
-                    x = 0;
+                    angleOffset = 0;
+                    xOffset = -11;
+
             }
 
             if (isStopRequested()) {
@@ -179,16 +191,18 @@ public class RightRed extends BaseAutoVisionOpMode {
             }
 
             //move forward to pos
+
             drive.followTrajectory(traj0);
-            drive.followTrajectory(drive.trajectoryBuilder(traj0.end().plus(new Pose2d(0, 0, Math.toRadians(x))))
-                    .lineTo(new Vector2d(43, 15))
+            drive.followTrajectorySequence(drive.trajectorySequenceBuilder(traj0.end().plus(new Pose2d(0, 0, Math.toRadians(angleOffset))))
+                    .lineTo(new Vector2d(43 + xOffset, 15 + yOffset))
+                    .lineTo(new Vector2d(40, 15))
                     .build());
 
 
             //now drop purple pixel
             sendMessage(ACTION_GOTO_LEVEL, 3);
             sleep(1000);
-            sendMessage(BUCKET_OUT);
+            sendMessage(BUCKET_AUTON_OUT);
             sleep(1000);
             sendMessage(ACTION_GOTO_LEVEL, 2);
             sleep(1000);
@@ -221,7 +235,7 @@ public class RightRed extends BaseAutoVisionOpMode {
             sleep(1000);
             sendMessage(DROP_PIXEL_LEFT);
             sleep(500);
-            sendMessage(BUCKET_OUT);
+            sendMessage(BUCKET_IN);
             sleep(1000);
             sendMessage(ACTION_GOTO_LEVEL, 0);
             sleep(1100);
@@ -250,6 +264,8 @@ public class RightRed extends BaseAutoVisionOpMode {
                         armHandler.sendEmptyMessage(222);
                 }else if(BUCKET_OUT.equals(action)){
                         armHandler.sendEmptyMessage(333);
+                }else if(BUCKET_AUTON_OUT.equals(action)){
+                        armHandler.sendEmptyMessage(444);
                 } else {
                         armHandler.sendEmptyMessage(level);
                 }

@@ -32,6 +32,10 @@ public class GamePadOpMode extends LinearOpMode {
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
+        robot.arm.axon_right.setPosition(SERVO_DOWN);
+        robot.arm.hook_right.setPosition(SERVO_UNLIFT);//hold both pixels
+        robot.arm.hook_left.setPosition(SERVO_LIFTED-0.33);
+
         waitForStart();
 
         runtime.reset();
@@ -141,10 +145,6 @@ public class GamePadOpMode extends LinearOpMode {
                     telemetry.addData("GP2 Input level", "Slides Up");
                 }
 
-                if(gamepad2.right_bumper){
-                    con = 1;
-
-                }
 
                 robot.arm.armMotor1.setPower(-slideD*con);
                 robot.arm.armMotor2.setPower(-slideD*con);
@@ -209,14 +209,14 @@ public class GamePadOpMode extends LinearOpMode {
                     telemetry.addData("GP2 Input level", "Release Right Pixel");
                     robot.arm.hook_right.setPosition(SERVO_LIFTED);//release pixel right
                 }
-                if(gamepad2.dpad_right) {
-                    telemetry.addData("GP2 Input", "Dpad - Right");
+                if(gamepad2.dpad_left) {
+                    telemetry.addData("GP2 Input", "Dpad - Left");
                     telemetry.addData("GP2 Input level", "Release Pixel Left");
                     robot.arm.hook_left.setPosition(SERVO_UNLIFT-0.33);//release pixel left
 
                 }
-                if (gamepad2.dpad_left){
-                    telemetry.addData("GP2 Input", "Dpad - Left");
+                if (gamepad2.dpad_right){
+                    telemetry.addData("GP2 Input", "Dpad - Right");
                     telemetry.addData("GP2 Input level", "Hold Left Pixel");
                     robot.arm.hook_left.setPosition(SERVO_LIFTED-0.33);//hold pixel left
                 }

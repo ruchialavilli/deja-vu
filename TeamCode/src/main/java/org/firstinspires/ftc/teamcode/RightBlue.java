@@ -26,9 +26,10 @@ public class RightBlue extends BaseAutoVisionOpMode {
         public static String DROP_PIXEL_RIGHT = "release_right";
         public static String DROP_PIXEL_LEFT = "release_left";
         public static String HOLD_BOTH_PIXELS = "hold_pixels";
+        public static String BUCKET_AUTON_OUT = "bucket_auton_out";
         public static String BUCKET_OUT = "bucket_out";
         public static String BUCKET_IN = "bucket_in";
-        public int x = 0;
+        public int angleOffset = 0;
 
         private HandlerThread mHandlerThread;
         private Handler armHandler;
@@ -80,6 +81,9 @@ public class RightBlue extends BaseAutoVisionOpMode {
                                     case 333:
                                             robot.arm.axon_right.setPosition(SERVO_UP);
                                             break;
+                                    case 444:
+                                            robot.arm.axon_right.setPosition(SERVO_AUTON_UP);
+                                            break;
                                     default:
 //                        Log.d(TAG, "executing arm action going to level: " + msg.what);
                                             robot.arm.moveArmToLevel(msg.what);
@@ -97,7 +101,7 @@ public class RightBlue extends BaseAutoVisionOpMode {
 
             //move to drop pixel
             Trajectory traj0 = drive.trajectoryBuilder(startPose)
-                    .lineTo(new Vector2d(-43, -36))
+                    .lineTo(new Vector2d(-36, -36))
                     .build();
 
 
@@ -105,7 +109,7 @@ public class RightBlue extends BaseAutoVisionOpMode {
 
             //move back to start
             Trajectory traj1 = drive.trajectoryBuilder(traj0.end())
-                    .lineTo(new Vector2d(-60, -36))//60 might be too far
+                    .lineTo(new Vector2d(-62, -36))//60 might be too far
                     .build();
 
             //turn to face 270 deg and then move forward to backdrop level
@@ -113,10 +117,10 @@ public class RightBlue extends BaseAutoVisionOpMode {
                     .lineTo(new Vector2d(-52, 52))
                     .build();
 
-            //strafe to backdrop pos
-            Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                    .lineTo(new Vector2d(-42, 52))
-                    .build();
+//            //strafe to backdrop pos
+//            Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
+//                    .lineTo(new Vector2d(-42, 52))
+//                    .build();
 
             //-- drop next pixel and pull down arm
 
@@ -153,12 +157,19 @@ public class RightBlue extends BaseAutoVisionOpMode {
             parkingLocationFinderThread.join();
 //        Log.d(TAG, "thread joins complete");
 
+            double xOffset = 0;
+            double yOffset = 0;
             if(locationToDrop == location1){
-                    x = 93;
+                    angleOffset = 93;
+                    yOffset = 6;
+
             }else if(locationToDrop == location3){
-                    x = -81;
+                    angleOffset = -81;
+                    yOffset = -6;
             }else{
-                    x = 0;
+                    angleOffset = 0;
+                    xOffset = 11;
+
             }
 
             if (isStopRequested()) {
@@ -169,15 +180,16 @@ public class RightBlue extends BaseAutoVisionOpMode {
 
             //move forward to pos
             drive.followTrajectory(traj0);
-            drive.followTrajectory(drive.trajectoryBuilder(traj0.end().plus(new Pose2d(0, 0, Math.toRadians(x))))
-                    .lineTo(new Vector2d(43, 15))
+            drive.followTrajectorySequence(drive.trajectorySequenceBuilder(traj0.end().plus(new Pose2d(0, 0, Math.toRadians(angleOffset))))
+                    .lineTo(new Vector2d(-36 + xOffset, -36 + yOffset))
+                    .lineTo(new Vector2d(-36, -36))
                     .build());
 
 
             //now drop purple pixel
             sendMessage(ACTION_GOTO_LEVEL, 3);
             sleep(1000);
-            sendMessage(BUCKET_OUT);
+            sendMessage(BUCKET_AUTON_OUT);
             sleep(1000);
             sendMessage(ACTION_GOTO_LEVEL, 2);
             sleep(1000);
@@ -240,6 +252,8 @@ public class RightBlue extends BaseAutoVisionOpMode {
                         armHandler.sendEmptyMessage(222);
                 }else if(BUCKET_OUT.equals(action)){
                         armHandler.sendEmptyMessage(333);
+                }else if(BUCKET_AUTON_OUT.equals(action)){
+                        armHandler.sendEmptyMessage(444);
                 } else {
                         armHandler.sendEmptyMessage(level);
                 }

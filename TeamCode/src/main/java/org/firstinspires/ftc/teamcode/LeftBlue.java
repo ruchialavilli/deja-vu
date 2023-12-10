@@ -28,7 +28,7 @@ public class LeftBlue extends BaseAutoVisionOpMode {
         public static String HOLD_BOTH_PIXELS = "hold_pixels";
         public static String BUCKET_OUT = "bucket_out";
         public static String BUCKET_IN = "bucket_in";
-        public int x = 0;
+        public int angleOffset = 0;
 
         private HandlerThread mHandlerThread;
         private Handler armHandler;
@@ -152,12 +152,19 @@ public class LeftBlue extends BaseAutoVisionOpMode {
             parkingLocationFinderThread.join();
 //        Log.d(TAG, "thread joins complete");
 
+            double xOffset = 0;
+            double yOffset = 0;
             if(locationToDrop == location1){
-                    x = 93;
+                    angleOffset = 93;
+                    yOffset = 6;
+
             }else if(locationToDrop == location3){
-                    x = -81;
+                    angleOffset = -81;
+                    yOffset = -6;
             }else{
-                    x = 0;
+                    angleOffset = 0;
+                    xOffset = 6;
+
             }
 
             if (isStopRequested()) {
@@ -168,7 +175,8 @@ public class LeftBlue extends BaseAutoVisionOpMode {
 
             //move forward to pos
             drive.followTrajectory(traj0);
-            drive.followTrajectory(drive.trajectoryBuilder(traj0.end().plus(new Pose2d(0, 0, Math.toRadians(x))))
+            drive.followTrajectory(drive.trajectoryBuilder(traj0.end().plus(new Pose2d(0, 0, Math.toRadians(angleOffset))))
+                    .lineTo(new Vector2d(-43 + xOffset, 15 + yOffset))
                     .lineTo(new Vector2d(-43, 15))
                     .build());
 

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -37,6 +39,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
     protected static final String[] LABELS = {
             "person","bicycle","car","motorcycle","airplane","bus","train","truck","boat","traffic light","fire hydrant","???","stop sign","parking meter","bench","bird","cat","dog","horse","sheep","cow","elephant","bear","zebra","giraffe","???","backpack","umbrella","???","???","handbag","tie","suitcase","frisbee","skis","snowboard","sports ball","kite","baseball bat","baseball glove","skateboard","surfboard","tennis racket","bottle","???","wine glass","cup","fork","knife","spoon","bowl","banana","apple","sandwich","orange","broccoli","carrot","hot dog","pizza","donut","cake","chair","couch","potted plant","bed","???","dining table","???","???","toilet","???","tv","laptop","mouse","remote","keyboard","cell phone","microwave","oven","toaster","sink","refrigerator","???","book","clock","vase","scissors","teddy bear","hair drier","toothbrush"
     };
+    private static final String TAG = "TESTTFD";
 
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
@@ -166,6 +169,13 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+            if(recognition.getLabel().equals("stop sign")) {
+                Log.d(TAG, "////************* ");
+                Log.d(TAG, String.format("Image %s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100));
+                Log.d(TAG, String.format("- Position (Row/Col): %.0f / %.0f", x, y));
+                Log.d(TAG, String.format("- Size (Width/Height): %.0f / %.0f", recognition.getWidth(), recognition.getHeight()));
+                Log.d(TAG, "*************////");
+            }
         }   // end for() loop
 
     }   // end method telemetryTfod()
