@@ -50,16 +50,16 @@ public class RightRed extends BaseAutoVisionOpMode {
             initTfod();
 
             /*
-            * TODO: Series of events:
-            * 1. Copy Over Opmodes
-            * a) Left Red (Long Side) D
-            * b) Left Blue D
-            * c) Right Blue D
-            * 2. ***Adjust The Drop Locations D
-            * 3. Set a WaitTimeMode D
-            * 4. Drop Purple Pixel Right (to the floor)
-            * 5. Drone Launcher
-            * */
+             * TODO: Series of events:
+             * 1. Copy Over Opmodes ~
+             * a) Left Red (Long Side)
+             * b) Left Blue D
+             * c) Right Blue
+             * 2. ***Adjust The Drop Locations D
+             * 3. Set a WaitTimeMode D
+             * 4. Drop Purple Pixel Right (to the floor) D
+             * 5. Drone Launcher
+             * */
 
 
             SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);

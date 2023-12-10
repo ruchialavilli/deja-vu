@@ -39,7 +39,7 @@ public class LeftBlue extends BaseAutoVisionOpMode {
 
         // dropping locations
         // left - april tag 1
-        protected static Vector2d location1 = new Vector2d(-48, 50);
+        protected static Vector2d location1 = new Vector2d(-42, 50);
         // center - april tag 2
         protected static Vector2d location2 = new Vector2d(-38, 50);
         // right - april tag 3
@@ -48,18 +48,6 @@ public class LeftBlue extends BaseAutoVisionOpMode {
     public void runOpMode() throws InterruptedException {
 
             initTfod();
-
-            /*
-            * TODO: Series of events:
-            * 1. Copy Over Opmodes
-            * a) Left Red (Long Side) D
-            * b) Left Blue D
-            * c) Right Blue D
-            * 2. ***Adjust The Drop Locations D
-            * 3. Set a WaitTimeMode D
-            * 4. Drop Purple Pixel Right (to the floor)
-            * 5. Drone Launcher
-            * */
 
 
             SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
