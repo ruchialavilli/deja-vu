@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -34,8 +33,8 @@ public class GamePadOpMode extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         robot.arm.axon_right.setPosition(SERVO_DOWN);
-        robot.arm.hook_right.setPosition(SERVO_UNLIFT);//hold both pixels
-        robot.arm.hook_left.setPosition(SERVO_LIFTED-0.33);
+        robot.arm.hook_right.setPosition(SERVO_LIFTED); //release both pixels
+        robot.arm.hook_left.setPosition(SERVO_UNLIFT-0.33);
 
         waitForStart();
 
@@ -117,7 +116,7 @@ public class GamePadOpMode extends LinearOpMode {
     private Runnable gp2Runnable = new Runnable() {
         public void run() {
             float slideD, slideU;
-            int con = 5;
+            int con = 7;//5
 
             while (opModeIsActive()) {
                 //TODO: if necessary, make dpad on gp2 move slides to pos 0
@@ -179,11 +178,11 @@ public class GamePadOpMode extends LinearOpMode {
                 if(gamepad1.right_trigger != 0){
                     telemetry.addData("GP1 Input", "Right Trigger");
                     telemetry.addData("GP1 Input level", "Intake");
-                    robot.arm.intakeMotor.setPower(-0.8);
+                    robot.arm.intakeMotor.setPower(-0.9);
                 }else if(gamepad1.left_trigger != 0){
                     telemetry.addData("GP1 Input", "Left Trigger");
                     telemetry.addData("GP1 Input level", "Outtake");
-                    robot.arm.intakeMotor.setPower(0.8);
+                    robot.arm.intakeMotor.setPower(0.9);
                 }else{
                     robot.arm.intakeMotor.setPower(0);
                 }
@@ -233,12 +232,6 @@ public class GamePadOpMode extends LinearOpMode {
                     telemetry.addData("GP2 Input level", "Hold Pixels");
                     robot.arm.hook_right.setPosition(SERVO_UNLIFT);//hold both pixels
                     robot.arm.hook_left.setPosition(SERVO_LIFTED-0.33);
-                }
-                if (gamepad2.b){
-                    telemetry.addData("GP2 Input", "B");
-                    telemetry.addData("GP2 Input level", "Turn on Slide Breaking");
-                    robot.arm.armMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                    robot.arm.armMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 }
 
                 telemetry.update();

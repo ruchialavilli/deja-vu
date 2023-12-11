@@ -163,13 +163,17 @@ public class BaseAutoVisionOpMode extends BaseAutoOpMode {
 
     protected void findDroppingPosition(boolean red){
         String detectSign = "remote";
+        String blueAlt1 = "cup";
+        String blueAlt2 = "suitcase";
+        String blueAlt3 = "skateboard";
+        String blueAlt4 = "cellphone";
         if(red){
             detectSign = "stop sign";
         }
         int rightCount = 0;
         int centerCount = 0;
         int leftCount = 0;
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 20; i++) {
             List<Recognition> updatedRecognitions = tfod.getRecognitions();//tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null && updatedRecognitions.size() > 0) {
                 sendToTelemetry("# Objects Detected", updatedRecognitions.size());
@@ -181,7 +185,13 @@ public class BaseAutoVisionOpMode extends BaseAutoOpMode {
                     double width = Math.abs(recognition.getRight() - recognition.getLeft());
                     double height = Math.abs(recognition.getTop() - recognition.getBottom());
 
-                    if (recognition.getLabel().equals(detectSign)) {
+
+                    if (recognition.getLabel().equals(detectSign)
+                    || (!red && (recognition.getLabel().equals(blueAlt1)
+                                || recognition.getLabel().equals(blueAlt2)
+                                || recognition.getLabel().equals(blueAlt3)
+                                || recognition.getLabel().equals(blueAlt4))
+                    ) ) {
                         Log.d(TAG, "////************* " + i + ":");
                         Log.d(TAG, String.format("Image %s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100));
                         Log.d(TAG, String.format("- Position (Row/Col): %.0f / %.0f", row, col));
@@ -224,9 +234,6 @@ public class BaseAutoVisionOpMode extends BaseAutoOpMode {
             telemetry.addLine("unable to determine dropping location - defaulting to 1");
             droppingPosition = 1;
         }
-
-        // test test - DELETE TODO
-        droppingPosition = 3;
     }
 
     protected void sendToTelemetry(String key, int value){

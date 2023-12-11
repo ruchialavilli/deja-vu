@@ -39,11 +39,11 @@ public class RightRed extends BaseAutoVisionOpMode {
 
         // dropping locations
         // left - april tag 1
-        protected static Vector2d location1 = new Vector2d(28, 50);
+        protected static Vector2d location1 = new Vector2d(26, 51);
         // center - april tag 2
-        protected static Vector2d location2 = new Vector2d(38, 50);
+        protected static Vector2d location2 = new Vector2d(34, 51);
         // right - april tag 3
-        protected static Vector2d location3 = new Vector2d(42, 50);
+        protected static Vector2d location3 = new Vector2d(42, 51);
 
     public void runOpMode() throws InterruptedException {
 
@@ -127,7 +127,7 @@ public class RightRed extends BaseAutoVisionOpMode {
 
             //turn to face 270 deg and then move forward to backdrop level
             Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(255 * TURN_MULTIPLIER))))
-                    .lineTo(new Vector2d(60, 52))
+                    .lineTo(new Vector2d(60, 50))
                     .build();
 
 //            //strafe to backdrop pos
