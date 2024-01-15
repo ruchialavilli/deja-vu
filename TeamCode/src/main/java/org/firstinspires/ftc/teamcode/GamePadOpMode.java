@@ -116,7 +116,7 @@ public class GamePadOpMode extends LinearOpMode {
     private Runnable gp2Runnable = new Runnable() {
         public void run() {
             float slideD, slideU;
-            int con = 7;//5
+            int con = 10;
 
             while (opModeIsActive()) {
                 //TODO: if necessary, make dpad on gp2 move slides to pos 0
@@ -146,10 +146,10 @@ public class GamePadOpMode extends LinearOpMode {
                 }
 
 
-                robot.arm.armMotor1.setPower(-slideD*con);
-                robot.arm.armMotor2.setPower(-slideD*con);
-                robot.arm.armMotor1.setPower(slideU*con);
-                robot.arm.armMotor2.setPower(slideU*con);
+                robot.arm.armMotor1.setPower(slideD*con);
+                robot.arm.armMotor2.setPower(slideD*con);
+                robot.arm.armMotor1.setPower(-slideU*con);
+                robot.arm.armMotor2.setPower(-slideU*con);
 
 //possible breaking strat                if(robot.arm.armMotor1.getCurrentPosition() <= 300 && robot.arm.armMotor2.getCurrentPosition() <= 300){
 //                    robot.arm.armMotor1.setPower(0);
