@@ -15,7 +15,7 @@ public class GamePadOpMode extends LinearOpMode {
     DejaVuBot robot = new DejaVuBot();
     private ElapsedTime runtime = new ElapsedTime();
     //look below at isBlue variable every gamepad run
-    public static final double SERVO_DOWN = 0.41;
+    public static final double SERVO_DOWN = 0.48;
     public static final double SERVO_UP = 0.04;
     public static final double SERVO_LIFTED = 0.62;
     public static final double SERVO_UNLIFT = 1;
