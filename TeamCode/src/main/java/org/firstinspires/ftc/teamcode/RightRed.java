@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TURN_MULTIPLIER;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TURN_ADD;
 
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -39,11 +39,11 @@ public class RightRed extends BaseAutoVisionOpMode {
 
         // dropping locations
         // left - april tag 1
-        protected static Vector2d location1 = new Vector2d(26, 51);
+        protected static Vector2d location1 = new Vector2d(32, 45);
         // center - april tag 2
-        protected static Vector2d location2 = new Vector2d(34, 51);
+        protected static Vector2d location2 = new Vector2d(38, 45);
         // right - april tag 3
-        protected static Vector2d location3 = new Vector2d(42, 51);
+        protected static Vector2d location3 = new Vector2d(42, 45);
 
     public void runOpMode() throws InterruptedException {
 
@@ -115,7 +115,7 @@ public class RightRed extends BaseAutoVisionOpMode {
 
             //move to drop pixel
             Trajectory traj0 = drive.trajectoryBuilder(startPose)
-                    .lineTo(new Vector2d(39, 13))
+                    .lineTo(new Vector2d(36, 13))
                     .build();
 
             //--turn to face one side and drop pixel -- then turn to face normally
@@ -126,8 +126,8 @@ public class RightRed extends BaseAutoVisionOpMode {
                     .build();
 
             //turn to face 270 deg and then move forward to backdrop level
-            Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(255 * TURN_MULTIPLIER))))
-                    .lineTo(new Vector2d(60, 50))
+            Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(270 + TURN_ADD))))
+                    .lineTo(new Vector2d(60, 45))
                     .build();
 
 //            //strafe to backdrop pos
@@ -139,7 +139,7 @@ public class RightRed extends BaseAutoVisionOpMode {
 
             //strafe back to wall
             Trajectory traj4 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
-                    .lineTo(new Vector2d(65, 52))
+                    .lineTo(new Vector2d(65, 45))// TODO: 16 for inner park or comment out if other team wants to park too
                     .build();
 
             //park
@@ -173,17 +173,17 @@ public class RightRed extends BaseAutoVisionOpMode {
             double xOffset = 0,  yOffset = 0;
             double xDropOffset = 0, yDropOffset = 0;
             if(locationToDrop == location1){
-                    angleOffset = (90 * TURN_MULTIPLIER);
+                    angleOffset = 90 + TURN_ADD;
                     yOffset = -6;
-                    yDropOffset = -1;
+                    yDropOffset = 4;
             }else if(locationToDrop == location3){
-                    angleOffset = -85;
-                    yOffset = 6;
-                    yDropOffset = 2;
+                    angleOffset = -(90 - TURN_ADD);
+                    yOffset = 13;
+                    yDropOffset = -3;
             }else{
                     angleOffset = 0;
                     xOffset = -8;
-                    xDropOffset = 2;
+                    xDropOffset = 5;
             }
 
             if (isStopRequested()) {
@@ -206,13 +206,13 @@ public class RightRed extends BaseAutoVisionOpMode {
             //now drop purple pixel
             sendMessage(ACTION_GOTO_LEVEL, 4);
             sleep(1000);
-            sendMessage(BUCKET_OUT);
+            sendMessage(BUCKET_AUTON_OUT);
             sleep(1000);
-            sendMessage(ACTION_GOTO_LEVEL, 2);
+            sendMessage(ACTION_GOTO_LEVEL, 0);
             sleep(1000);
             sendMessage(DROP_PIXEL_RIGHT);
             sleep(500);
-            sendMessage(BUCKET_AUTON_OUT);
+            sendMessage(BUCKET_OUT);
             sleep(1000);
             sendMessage(ACTION_GOTO_LEVEL, 4);
             sleep(1000);
@@ -221,10 +221,18 @@ public class RightRed extends BaseAutoVisionOpMode {
             sendMessage(ACTION_GOTO_LEVEL, 0);
             sleep(1500);
 
+            if(locationToDrop == location3){
+                    yDropOffset = 0;
+            }
+            if(locationToDrop == location1){
+                    yDropOffset = 5;
+            }
+
             // go back before we return to startpos
-//            drive.followTrajectory(drive.trajectoryBuilder(temp.end())
-//                    .lineTo(new Vector2d(36, 13))
-//                    .build());
+            drive.followTrajectorySequence(drive.trajectorySequenceBuilder(temp.end())
+                    .lineTo(new Vector2d(36, 13 + yDropOffset))
+                    .turn(Math.toRadians(-angleOffset))
+                    .build());
 
             //move to start pos
             drive.followTrajectory(traj1);

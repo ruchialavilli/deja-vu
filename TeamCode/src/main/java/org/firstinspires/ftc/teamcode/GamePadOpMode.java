@@ -79,8 +79,8 @@ public class GamePadOpMode extends LinearOpMode {
             double turnPower;
 
             while (opModeIsActive()) {
-                drive = (-gamepad1.left_stick_y)*0.9;
-                turn = (gamepad1.left_stick_x)*0.9;
+                drive = (-gamepad1.left_stick_y)*0.98;
+                turn = (gamepad1.left_stick_x)*0.98;
                 leftPower = Range.clip(drive + turn, -1.0, 1.0);
                 rightPower = Range.clip(drive - turn, -1.0, 1.0);
                 turnPower = Range.clip((gamepad1.right_stick_x)*0.85, -1.0, 1.0);
@@ -146,10 +146,10 @@ public class GamePadOpMode extends LinearOpMode {
                 }
 
 
-                robot.arm.armMotor1.setPower(slideD*con);
-                robot.arm.armMotor2.setPower(slideD*con);
-                robot.arm.armMotor1.setPower(-slideU*con);
-                robot.arm.armMotor2.setPower(-slideU*con);
+                robot.arm.armMotor1.setPower(-slideD*con);
+                robot.arm.armMotor2.setPower(-slideD*con);
+                robot.arm.armMotor1.setPower(slideU*con);
+                robot.arm.armMotor2.setPower(slideU*con);
 
 //possible breaking strat                if(robot.arm.armMotor1.getCurrentPosition() <= 300 && robot.arm.armMotor2.getCurrentPosition() <= 300){
 //                    robot.arm.armMotor1.setPower(0);

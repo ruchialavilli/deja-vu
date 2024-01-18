@@ -91,7 +91,7 @@ public class DriveConstants {
     public static double MAX_ANG_VEL = Math.toRadians(180);//trial amd error //198.81320727272728 //223....
     public static double MAX_ANG_ACCEL = Math.toRadians(180); //trial and error //223....
 
-    public static double TURN_MULTIPLIER = 1;//used in comp one to deal with terrible turning
+    public static double TURN_ADD = 4;//used in comp 2 to deal with slight offset
 
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;

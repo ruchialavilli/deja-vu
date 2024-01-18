@@ -40,9 +40,9 @@ public class DejaVuArm {
     {
         //100 = 1 inch
         level_map.put(0, 0 );//ground
-        level_map.put(1, 50);//5 inches off the ground (pick up)
+        level_map.put(1, 50);//5 inches off the ground (pick up)//need to lower/test
         level_map.put(2, 100);//16 inches - level 1
-        level_map.put(3, 2500);// to be 26 inches - level 2
+        level_map.put(3, 2700);// to be 26 inches - level 2
         level_map.put(4, 1600);//to be 36 inches - level 3 (auton)
 
         level_map.put(9, 2900);//to be 36 inches - level 3
@@ -74,8 +74,8 @@ public class DejaVuArm {
         armMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        armMotor2.setDirection(DcMotorSimple.Direction.REVERSE);
-        armMotor1.setDirection(DcMotorSimple.Direction.FORWARD);
+        armMotor1.setDirection(DcMotorSimple.Direction.REVERSE);
+        armMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
 
         armMotor1.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
         armMotor2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
