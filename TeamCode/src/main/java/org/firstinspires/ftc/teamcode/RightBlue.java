@@ -38,11 +38,11 @@ public class RightBlue extends BaseAutoVisionOpMode {
 
         // dropping locations
         // left - april tag 1
-        protected static Vector2d location1 = new Vector2d(-42, 45);
+        protected static Vector2d location1 = new Vector2d(-42, 50);
         // center - april tag 2
-        protected static Vector2d location2 = new Vector2d(-38, 45);
+        protected static Vector2d location2 = new Vector2d(-34, 50);
         // right - april tag 3
-        protected static Vector2d location3 = new Vector2d(-32, 45);
+        protected static Vector2d location3 = new Vector2d(-30, 50);
 
     public void runOpMode() throws InterruptedException {
 
@@ -109,12 +109,12 @@ public class RightBlue extends BaseAutoVisionOpMode {
 
             //move back to start
             Trajectory traj1 = drive.trajectoryBuilder(traj0.end())
-                    .lineTo(new Vector2d(-60, -35))//TODO check if it is needed and mimic in other files
+                    .lineTo(new Vector2d(-61, -38))
                     .build();
 
             //turn to face 270 deg and then move forward to backdrop level
             Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(90 + TURN_ADD))))
-                    .lineTo(new Vector2d(-60, 45))
+                    .lineTo(new Vector2d(-61, 49))
                     .build();
 
 //            //strafe to backdrop pos
@@ -126,7 +126,7 @@ public class RightBlue extends BaseAutoVisionOpMode {
 
             //strafe back to wall
             Trajectory traj4 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
-                    .lineTo(new Vector2d(-65, 45))// TODO: -16 for inner park or comment out if other team wants to park too
+                    .lineTo(new Vector2d(-65, 49))// TODO: -16 for inner park or comment out if other team wants to park too
                     .build();
 
             //park
@@ -162,7 +162,7 @@ public class RightBlue extends BaseAutoVisionOpMode {
             if(locationToDrop == location1){
                     angleOffset = (90+TURN_ADD);
                     yOffset = 13;
-                    yDropOffset = -3;
+                    yDropOffset = -4;
             }else if(locationToDrop == location3){
                     angleOffset = -(90-TURN_ADD);
                     yOffset = -6;
@@ -198,7 +198,7 @@ public class RightBlue extends BaseAutoVisionOpMode {
             sendMessage(ACTION_GOTO_LEVEL, 0);
             sleep(1000);
             sendMessage(DROP_PIXEL_RIGHT);
-            sleep(1000);
+            sleep(500);
             sendMessage(BUCKET_OUT);
             sleep(1000);
             sendMessage(ACTION_GOTO_LEVEL, 4);
@@ -212,7 +212,7 @@ public class RightBlue extends BaseAutoVisionOpMode {
                     yDropOffset = 1;
             }
             if(locationToDrop == location1){
-                    yDropOffset = -4;
+                    yDropOffset = -5;
             }
 
             // go back before we return to startpos
@@ -235,12 +235,12 @@ public class RightBlue extends BaseAutoVisionOpMode {
 
 
             //now drop yellow on backdrop
-            sendMessage(ACTION_GOTO_LEVEL, 3);
+            sendMessage(ACTION_GOTO_LEVEL, 9);
             sleep(1000);
             sendMessage(BUCKET_OUT);
             sleep(1000);
             sendMessage(DROP_PIXEL_LEFT);
-            sleep(500);
+            sleep(1000);
             sendMessage(BUCKET_IN);
             sleep(1000);
             sendMessage(ACTION_GOTO_LEVEL, 0);

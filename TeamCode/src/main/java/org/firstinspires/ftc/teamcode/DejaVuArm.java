@@ -42,7 +42,7 @@ public class DejaVuArm {
         level_map.put(0, 0 );//ground
         level_map.put(1, 50);//5 inches off the ground (pick up)//need to lower/test
         level_map.put(2, 100);//16 inches - level 1
-        level_map.put(3, 2700);// to be 26 inches - level 2
+        level_map.put(3, 3000);// to be 26 inches - level 2
         level_map.put(4, 1600);//to be 36 inches - level 3 (auton)
 
         level_map.put(9, 2900);//to be 36 inches - level 3

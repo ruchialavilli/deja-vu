@@ -39,15 +39,17 @@ public class LeftBlue extends BaseAutoVisionOpMode {
 
         // dropping locations
         // left - april tag 1
-        protected static Vector2d location1 = new Vector2d(-42, 45);
+        protected static Vector2d location1 = new Vector2d(-41, 49);
         // center - april tag 2
-        protected static Vector2d location2 = new Vector2d(-38, 45);
+        protected static Vector2d location2 = new Vector2d(-34, 49);
         // right - april tag 3
-        protected static Vector2d location3 = new Vector2d(-32, 45);
+        protected static Vector2d location3 = new Vector2d(-29, 49);
 
     public void runOpMode() throws InterruptedException {
 
             initTfod();
+
+            //TODO Loc 2&3 fine tuning
 
 
             SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -110,12 +112,12 @@ public class LeftBlue extends BaseAutoVisionOpMode {
 
             //move back to start
             Trajectory traj1 = drive.trajectoryBuilder(traj0.end())
-                    .lineTo(new Vector2d(-60, 13))
+                    .lineTo(new Vector2d(-60, 16))
                     .build();
 
             //turn to face 270 deg and then move forward to backdrop level
             Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(90+TURN_ADD))))
-                    .lineTo(new Vector2d(-60, 45))
+                    .lineTo(new Vector2d(-60, 49))
                     .build();
 
 //            //strafe to backdrop pos
@@ -127,7 +129,7 @@ public class LeftBlue extends BaseAutoVisionOpMode {
 
             //strafe back to wall
             Trajectory traj4 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
-                    .lineTo(new Vector2d(-65, 45))// TODO: -16 for inner park or comment out if other team wants to park too
+                    .lineTo(new Vector2d(-65, 49))// TODO: -16 for inner park or comment out if other team wants to park too
                     .build();
 
             //park
@@ -163,7 +165,7 @@ public class LeftBlue extends BaseAutoVisionOpMode {
             if(locationToDrop == location1){
                     angleOffset = (90+TURN_ADD);
                     yOffset = 13;
-                    yDropOffset = -3;
+                    yDropOffset = -3.5;
             }else if(locationToDrop == location3){
                     angleOffset = -(90-TURN_ADD);
                     yOffset = -6;
@@ -199,7 +201,7 @@ public class LeftBlue extends BaseAutoVisionOpMode {
             sendMessage(ACTION_GOTO_LEVEL, 0);
             sleep(1000);
             sendMessage(DROP_PIXEL_RIGHT);
-            sleep(1000);
+            sleep(500);
             sendMessage(BUCKET_OUT);
             sleep(1000);
             sendMessage(ACTION_GOTO_LEVEL, 4);
@@ -210,7 +212,7 @@ public class LeftBlue extends BaseAutoVisionOpMode {
             sleep(1500);
 
             if(locationToDrop == location3){
-                    yDropOffset = 4;
+                    yDropOffset = 5;
             }
             if(locationToDrop == location1){
                     yDropOffset = -1;
@@ -241,7 +243,7 @@ public class LeftBlue extends BaseAutoVisionOpMode {
             sendMessage(BUCKET_OUT);
             sleep(1000);
             sendMessage(DROP_PIXEL_LEFT);
-            sleep(500);
+            sleep(1000);
             sendMessage(BUCKET_IN);
             sleep(1000);
             sendMessage(ACTION_GOTO_LEVEL, 0);
