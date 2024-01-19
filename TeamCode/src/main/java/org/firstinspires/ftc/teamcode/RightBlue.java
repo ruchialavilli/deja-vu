@@ -109,7 +109,7 @@ public class RightBlue extends BaseAutoVisionOpMode {
 
             //move back to start
             Trajectory traj1 = drive.trajectoryBuilder(traj0.end())
-                    .lineTo(new Vector2d(-60, -33))
+                    .lineTo(new Vector2d(-60, -35))//TODO check if it is needed and mimic in other files
                     .build();
 
             //turn to face 270 deg and then move forward to backdrop level
@@ -166,7 +166,7 @@ public class RightBlue extends BaseAutoVisionOpMode {
             }else if(locationToDrop == location3){
                     angleOffset = -(90-TURN_ADD);
                     yOffset = -6;
-                    yDropOffset = 4;
+                    yDropOffset = 3;
             }else{
                     angleOffset = 0;
                     xOffset = 8;
@@ -198,7 +198,7 @@ public class RightBlue extends BaseAutoVisionOpMode {
             sendMessage(ACTION_GOTO_LEVEL, 0);
             sleep(1000);
             sendMessage(DROP_PIXEL_RIGHT);
-            sleep(500);
+            sleep(1000);
             sendMessage(BUCKET_OUT);
             sleep(1000);
             sendMessage(ACTION_GOTO_LEVEL, 4);
@@ -209,7 +209,7 @@ public class RightBlue extends BaseAutoVisionOpMode {
             sleep(1500);
 
             if(locationToDrop == location3){
-                    yDropOffset = 0;
+                    yDropOffset = 1;
             }
             if(locationToDrop == location1){
                     yDropOffset = -4;
@@ -285,16 +285,16 @@ public class RightBlue extends BaseAutoVisionOpMode {
                         findDroppingPosition(false);
                         switch (droppingPosition) {
                                 case 1:
-                                        locationToDrop = location3;//1
+                                        locationToDrop = location1;
                                         break;
                                 case 2:
-                                        locationToDrop = location3;//2
+                                        locationToDrop = location2;
                                         break;
                                 case 3:
-                                        locationToDrop = location3;//3
+                                        locationToDrop = location3;
                                         break;
                                 default:
-                                        locationToDrop = location3;//2
+                                        locationToDrop = location2;
                                         break;
                         }
                         sendToTelemetry("Found parking", locationToDrop.toString());
@@ -309,11 +309,11 @@ public class RightBlue extends BaseAutoVisionOpMode {
                                 telemetry.addLine(" location3");
                         } else {
                                 telemetry.addLine(" UNKNOWN - defaulting to location2");
-                                locationToDrop = location3;//2
+                                locationToDrop = location2;
                         }
                 } else {
                         sendToTelemetry(">", "Could not init vision code - defaulting to TOP");
-                        locationToDrop = location3;//2
+                        locationToDrop = location2;
                 }
 //        Log.d(TAG, "Thread 1 finishing up");
         };

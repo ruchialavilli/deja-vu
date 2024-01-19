@@ -199,7 +199,7 @@ public class LeftBlue extends BaseAutoVisionOpMode {
             sendMessage(ACTION_GOTO_LEVEL, 0);
             sleep(1000);
             sendMessage(DROP_PIXEL_RIGHT);
-            sleep(500);
+            sleep(1000);
             sendMessage(BUCKET_OUT);
             sleep(1000);
             sendMessage(ACTION_GOTO_LEVEL, 4);
