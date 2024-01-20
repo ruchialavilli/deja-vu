@@ -39,11 +39,11 @@ public class LeftRed extends BaseAutoVisionOpMode {
 
         // dropping locations
         // left - april tag 1
-        protected static Vector2d location1 = new Vector2d(30, 50);
+        protected static Vector2d location1 = new Vector2d(32, 49);
         // center - april tag 2
-        protected static Vector2d location2 = new Vector2d(34, 50);
+        protected static Vector2d location2 = new Vector2d(38, 49);
         // right - april tag 3
-        protected static Vector2d location3 = new Vector2d(42, 50);
+        protected static Vector2d location3 = new Vector2d(43, 49);
 
     public void runOpMode() throws InterruptedException {
 
@@ -122,12 +122,13 @@ public class LeftRed extends BaseAutoVisionOpMode {
 
             //move back to start
             Trajectory traj1 = drive.trajectoryBuilder(traj0.end())
-                    .lineTo(new Vector2d(62, -38))
+                    .lineTo(new Vector2d(61, -38))
                     .build();
 
             //turn to face 270 deg and then move forward to backdrop level
-            Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(270 + TURN_ADD))))
-                    .lineTo(new Vector2d(62, 49))
+            TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
+                    .turn(Math.toRadians(-90+TURN_ADD))
+                    .lineTo(new Vector2d(61, 49))
                     .build();
 
 //            //strafe to backdrop pos
@@ -241,14 +242,14 @@ public class LeftRed extends BaseAutoVisionOpMode {
             //sleep();
 
             //move to backdrop
-            drive.followTrajectory(traj2);
+            drive.followTrajectorySequence(traj2);
             drive.followTrajectorySequence(drive.trajectorySequenceBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
                     .lineTo(locationToDrop)
                     .build());
 
 
             //now drop yellow on backdrop
-            sendMessage(ACTION_GOTO_LEVEL, 9);
+            sendMessage(ACTION_GOTO_LEVEL, 3);
             sleep(1000);
             sendMessage(BUCKET_OUT);
             sleep(1000);

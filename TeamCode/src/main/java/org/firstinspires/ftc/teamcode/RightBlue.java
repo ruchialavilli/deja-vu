@@ -235,7 +235,7 @@ public class RightBlue extends BaseAutoVisionOpMode {
 
 
             //now drop yellow on backdrop
-            sendMessage(ACTION_GOTO_LEVEL, 9);
+            sendMessage(ACTION_GOTO_LEVEL, 3);
             sleep(1000);
             sendMessage(BUCKET_OUT);
             sleep(1000);
