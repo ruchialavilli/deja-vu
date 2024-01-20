@@ -20,6 +20,7 @@ public class DejaVuArm {
     public Servo axon_right = null;
     public Servo hook_right = null;
     public Servo hook_left = null;
+    public Servo drone = null;
 
 
 
@@ -70,6 +71,7 @@ public class DejaVuArm {
         this.axon_right = hwMap.servo.get("axonRight");
         this.hook_right = hwMap.servo.get("hookRight");
         this.hook_left = hwMap.servo.get("hookLeft");
+        this.drone = hwMap.servo.get("drone");//TODO
 
         armMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

@@ -198,11 +198,12 @@ public class GamePadOpMode extends LinearOpMode {
 
                 }
 
-//                else if (gamepad1.dpad_up){
-//                    telemetry.addData("GP1 Input", "Dpad - Up");
-//                    telemetry.addData("GP1 Input level", "Launch Dronw");
-//                    robot.arm.axon_right.setPosition(0.0);//TODO set pos and servo
-//                }
+                else if (gamepad1.dpad_up){
+                    telemetry.addData("GP1 Input", "Dpad - Up");
+                    telemetry.addData("GP1 Input level", "Launch Drone");
+                    robot.arm.drone.setPosition(0);//TODO set pos and try out
+                }
+
 
                 if(gamepad2.a) {
                     telemetry.addData("GP2 Input", "A");
