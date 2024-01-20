@@ -49,18 +49,6 @@ public class LeftRed extends BaseAutoVisionOpMode {
 
             initTfod();
 
-            /*
-             * TODO: Series of events:
-             * 1. Copy Over Opmodes ~
-             * a) Left Red (Long Side)
-             * b) Left Blue D
-             * c) Right Blue
-             * 2. ***Adjust The Drop Locations D
-             * 3. Set a WaitTimeMode D
-             * 4. Drop Purple Pixel Right (to the floor) D
-             * 5. Drone Launcher
-             * */
-
 
             SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
@@ -127,7 +115,7 @@ public class LeftRed extends BaseAutoVisionOpMode {
 
             //turn to face 270 deg and then move forward to backdrop level
             TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
-                    .turn(Math.toRadians(-90+TURN_ADD))
+                    .turn(Math.toRadians(-90+TURN_ADD))//todo: do we need to change this for all files?
                     .lineTo(new Vector2d(61, 49))
                     .build();
 

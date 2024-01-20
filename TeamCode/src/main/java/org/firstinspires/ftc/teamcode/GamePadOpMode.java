@@ -83,7 +83,7 @@ public class GamePadOpMode extends LinearOpMode {
                 turn = (gamepad1.left_stick_x);
                 leftPower = Range.clip(drive + turn, -1.0, 1.0);
                 rightPower = Range.clip(drive - turn, -1.0, 1.0);
-                turnPower = Range.clip((gamepad1.right_stick_x), -1.0, 1.0);
+                turnPower = Range.clip((gamepad1.right_stick_x) * 0.90, -1.0, 1.0);
 
 //                telemetry.addData("GP1 drive set to:", "" + drive);
 //                telemetry.addData("GP1 turn set to:", "" + turn);
@@ -195,7 +195,14 @@ public class GamePadOpMode extends LinearOpMode {
                     telemetry.addData("GP2 Input", "Left Bumper");
                     telemetry.addData("GP2 Input level", "Bucket Back");
                     robot.arm.axon_right.setPosition(SERVO_DOWN);
+
                 }
+
+//                else if (gamepad1.dpad_up){
+//                    telemetry.addData("GP1 Input", "Dpad - Up");
+//                    telemetry.addData("GP1 Input level", "Launch Dronw");
+//                    robot.arm.axon_right.setPosition(0.0);//TODO set pos and servo
+//                }
 
                 if(gamepad2.a) {
                     telemetry.addData("GP2 Input", "A");

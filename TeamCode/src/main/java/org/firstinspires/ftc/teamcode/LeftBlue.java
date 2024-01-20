@@ -49,7 +49,6 @@ public class LeftBlue extends BaseAutoVisionOpMode {
 
             initTfod();
 
-            //TODO Loc 2&3 fine tuning
 
 
             SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
