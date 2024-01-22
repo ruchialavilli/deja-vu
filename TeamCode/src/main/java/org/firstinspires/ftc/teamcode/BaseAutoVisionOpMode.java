@@ -134,7 +134,7 @@ public class BaseAutoVisionOpMode extends BaseAutoOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.2f);
+        tfod.setMinResultConfidence(0.1f);
 
         // Disable or re-enable the TFOD processor at any time.
         visionPortal.setProcessorEnabled(tfod, true);
@@ -173,7 +173,7 @@ public class BaseAutoVisionOpMode extends BaseAutoOpMode {
         int rightCount = 0;
         int centerCount = 0;
         int leftCount = 0;
-        for(int i = 0; i < 20; i++) {
+        for(int i = 0; i < 50; i++) {
             List<Recognition> updatedRecognitions = tfod.getRecognitions();//tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null && updatedRecognitions.size() > 0) {
                 sendToTelemetry("# Objects Detected", updatedRecognitions.size());
@@ -186,7 +186,7 @@ public class BaseAutoVisionOpMode extends BaseAutoOpMode {
                     double height = Math.abs(recognition.getTop() - recognition.getBottom());
 
 
-                    if (recognition.getLabel().equals(detectSign)
+                    if ((recognition.getLabel().equals(detectSign))
                     || (!red && (recognition.getLabel().equals(blueAlt1)
                                 || recognition.getLabel().equals(blueAlt2)
                                 || recognition.getLabel().equals(blueAlt3)

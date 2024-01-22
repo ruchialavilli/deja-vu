@@ -231,6 +231,7 @@ public class RightRed extends BaseAutoVisionOpMode {
 
             //move to backdrop
             drive.followTrajectory(traj2);
+
             drive.followTrajectory(drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
                     .lineTo(locationToDrop)
                     .build());

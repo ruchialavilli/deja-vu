@@ -225,7 +225,6 @@ public class RightBlue extends BaseAutoVisionOpMode {
             drive.followTrajectory(traj1);
 
             //TODO: sleep to wait for alliance to finish
-            //sleep();
 
             //move to backdrop
             drive.followTrajectory(traj2);

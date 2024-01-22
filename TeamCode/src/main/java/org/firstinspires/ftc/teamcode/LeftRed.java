@@ -231,6 +231,10 @@ public class LeftRed extends BaseAutoVisionOpMode {
 
             //move to backdrop
             drive.followTrajectorySequence(traj2);
+
+            sleep(2000);
+
+
             drive.followTrajectorySequence(drive.trajectorySequenceBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))))
                     .lineTo(locationToDrop)
                     .build());
@@ -296,7 +300,7 @@ public class LeftRed extends BaseAutoVisionOpMode {
                                         locationToDrop = location3;
                                         break;
                                 default:
-                                        locationToDrop = location2;
+                                        locationToDrop = location1;
                                         break;
                         }
                         sendToTelemetry("Found parking", locationToDrop.toString());
