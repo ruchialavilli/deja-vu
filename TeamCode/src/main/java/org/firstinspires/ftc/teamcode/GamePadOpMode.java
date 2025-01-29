@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -33,7 +34,7 @@ public class GamePadOpMode extends LinearOpMode {
         telemetry.update();
 
         // Wait for the game to start (set pitchServo position)
-        robot.arm.pitchServo.setPosition(1.0);
+        robot.arm.pitchServo.setPosition(0.8);
 
         waitForStart();
 
@@ -51,11 +52,11 @@ public class GamePadOpMode extends LinearOpMode {
         g2RotateThread = new Thread(g2RotateRunnable);
         g2RotateThread.start();
 
-        Log.d(TAG, "starting thread 3");
+        Log.d(TAG, "starting thread 4");
         pickUpThread = new Thread(pickupRunnable);
         pickUpThread.start();
 
-        Log.d(TAG, "starting thread 3");
+        Log.d(TAG, "starting thread 5");
         intakeThread = new Thread(intakeRunnable);
         intakeThread.start();
 
@@ -128,37 +129,13 @@ public class GamePadOpMode extends LinearOpMode {
 
             while (opModeIsActive()) {
 
+                //***THIS IS FOR CONTROLLING THE EXTENSION OF THE ARM (for picking up) (reach)
+                //ALWAYS EXTEND ALL THE WAY BACK!!! BEFORE USING CONTROLS //TODO test this (might not need to)
+
+
                 extendPower = gamepad2.left_stick_y;
 
                 robot.arm.armExtension.setPower(extendPower);
-
-                //TODO: make levels for 2 drop pos (buckets) and code to move arm there based on buttons
-                //x = 1, y = 2, b = base
-                //for dropping only - use levels; calculate location from current arm pos to allow for easy control when picking up
-                //levels may not be necessary
-                //automate dropping?
-
-//                if (gamepad2.left_trigger < threshholdConst) slideD = 0;
-//
-//                if (gamepad2.left_trigger > 1 - threshholdConst){
-//                    slideD = 1;
-//                    telemetry.addData("GP2 Input", "Left Trigger");
-//                    telemetry.addData("GP2 Input level", "Slides Down");
-//                }
-//
-//                if (gamepad2.right_trigger < threshholdConst) slideU = 0;
-//
-//                if (gamepad2.right_trigger > 1 - threshholdConst){
-//                    slideU = 1;
-//                    telemetry.addData("GP2 Input", "Right Trigger");
-//                    telemetry.addData("GP2 Input level", "Slides Up");
-//                }
-//
-//
-//                robot.arm.armExtension.setPower(-slideD*con);
-//                robot.arm.armRotation.setPower(-slideD*con);
-//                robot.arm.armExtension.setPower(slideU*con);
-//                robot.arm.armRotation.setPower(slideU*con);
 
 
                 telemetry.addData("GP2 armMotor armExtension value", robot.arm.armExtension.getCurrentPosition());
@@ -175,41 +152,38 @@ public class GamePadOpMode extends LinearOpMode {
     private Runnable g2RotateRunnable = new Runnable() {
         public void run() {
             while (opModeIsActive()) {
-                //Intake controls
-                int armTargetPosition = 0;
 
-                while(gamepad2.right_stick_x != 0){
-                    robot.arm.armRotation.setPower(gamepad2.right_stick_x * 0.5);
-                }
+                //THIS IS FOR CONTROLLING armRotation (just angles to pick and drop)
 
-                robot.arm.armRotation.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-                robot.arm.armRotation.setPower(0);
-                //TODO control break with encoder location? (og code below)
+                //Code for controlling rotation
+//                while(gamepad2.right_stick_x != 0){
+//                    robot.arm.armRotation.setPower(gamepad2.right_stick_x * 0.5);
+//                }
+
                 //use float to drop?
                 //or just control to positions!
-                //TODO if counterweights r good then we happy :D
+                //TODO if counterweights r good then we happy :D (but do we wanna control rotation when picking (if so then code is above))
+                telemetry.addData("GP2 armRotation value", robot.arm.armRotation.getCurrentPosition());
 
+                if(gamepad2.right_bumper){
+                    telemetry.addData("GP2 Input", "Right Bumper");
+                    telemetry.addData("GP2 Input level", "Arm Up");
+                    Log.d(TAG, "armRotation current angle:" + robot.arm.armRotation.getCurrentPosition());
+                    robot.arm.armRotation.setPower(0.7);
+                    robot.arm.armRotation.setTargetPosition(650); //Arm up pos
+                    robot.arm.armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.armRotation.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+                    robot.arm.armRotation.setPower(0.0);
+                }else if(gamepad2.left_bumper){
+                    telemetry.addData("GP2 Input", "Left Bumper");
+                    telemetry.addData("GP2 Input level", "Arm Down");
+                    robot.arm.armRotation.setPower(-0.7);
+                    robot.arm.armRotation.setTargetPosition(30); //Arm down but not touching the floor :D //TODO check on physical bot
+                    robot.arm.armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.arm.armRotation.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                    robot.arm.armRotation.setPower(0.0);
+                }
 
-//                if(gamepad2.right_bumper){
-//                    telemetry.addData("GP2 Input", "Right Bumper");
-//                    telemetry.addData("GP2 Input level", "Arm Up");
-//                    telemetry.addData("GP2 armRotation value", robot.arm.armRotation.getCurrentPosition());
-//                    Log.d(TAG, "armRotation current angle:" + robot.arm.armRotation.getCurrentPosition());
-//
-//                    armTargetPosition += 650;
-//                    robot.arm.armRotation.setTargetPosition(armTargetPosition);
-//                    robot.arm.armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    robot.arm.armRotation.setPower(0.5);
-//                }else if(gamepad2.left_bumper){
-//                    telemetry.addData("GP2 Input", "Left Bumper");
-//                    telemetry.addData("GP2 Input level", "Arm Down");
-//                    armTargetPosition -= 650;
-//                    robot.arm.armRotation.setTargetPosition(armTargetPosition);
-//                    robot.arm.armRotation.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    robot.arm.armRotation.setPower(-0.5);
-//                }
-//
-//                robot.arm.armRotation.setPower(0.0);
 
 
 
@@ -223,16 +197,35 @@ public class GamePadOpMode extends LinearOpMode {
         public void run() {
             while (opModeIsActive()) {
 
+                //THIS IS FOR SCORING THE BLOCKS (Automates armExtension and dropping)
+
                 if (gamepad2.dpad_down) { //pick
                     telemetry.addData("GP2 Input", "D-Pad Down");
                     telemetry.addData("GP2 Input level", "Pick Specimen");
-                    robot.arm.pitchServo.setPosition(0.7); //TODO test when intake is made quicker
+                    robot.arm.moveArmToLevel(0);
+                    robot.arm.pitchServo.setPosition(0.5);
+                    robot.arm.intakeLeft.setPower(1);
+                    robot.arm.intakeRight.setPower(-1);
+
                 }
-                if (gamepad2.dpad_up) { //drop
+                if (gamepad2.dpad_right) { //drop middle
+                    telemetry.addData("GP2 Input", "D-Pad Right");
+                    telemetry.addData("GP2 Input level", "Lower Bucket");
+                    robot.arm.moveArmToLevel(1);
+                    robot.arm.pitchServo.setPosition(0.8);
+                    robot.arm.intakeLeft.setPower(-1);
+                    robot.arm.intakeRight.setPower(1);
+                }
+                if (gamepad2.dpad_up) { //drop bottom
                     telemetry.addData("GP2 Input", "D-Pad Up");
-                    telemetry.addData("GP2 Input level", "Drop Specimen");
-                    robot.arm.pitchServo.setPosition(1.0); //TODO: Fix angle on field
+                    telemetry.addData("GP2 Input level", "Upper Bucket");
+                    robot.arm.moveArmToLevel(2);
+                    robot.arm.pitchServo.setPosition(0.8); //TODO fix angle on field ASAP (needs to be upwards TT-TT)
+                    robot.arm.intakeLeft.setPower(-1);
+                    robot.arm.intakeRight.setPower(1);
                 }
+
+
 
                 telemetry.update();
             } //end of while loop
@@ -244,15 +237,15 @@ public class GamePadOpMode extends LinearOpMode {
         public void run() {
             while (opModeIsActive()) {
 
-                if (gamepad2.y) { //triangle //outtake
+                if (gamepad2.y) {  //outtake
                     robot.arm.intakeLeft.setPower(-1);
                     robot.arm.intakeRight.setPower(1);
                 }
-                else if (gamepad2.x) { //square //intake
+                else if (gamepad2.x) {  //intake
                     robot.arm.intakeLeft.setPower(1);
                     robot.arm.intakeRight.setPower(-1);
                 }
-                else {
+                else if (gamepad2.b){ //stops moving
                     robot.arm.intakeLeft.setPower(0);
                     robot.arm.intakeRight.setPower(0);
                 }
