@@ -203,26 +203,26 @@ public class GamePadOpMode extends LinearOpMode {
                     telemetry.addData("GP2 Input", "D-Pad Down");
                     telemetry.addData("GP2 Input level", "Pick Specimen");
                     robot.arm.moveArmToLevel(0);
-                    robot.arm.pitchServo.setPosition(0.5);
-                    robot.arm.intakeLeft.setPower(1);
-                    robot.arm.intakeRight.setPower(-1);
+//                    robot.arm.pitchServo.setPosition(0.5);
+//                    robot.arm.intakeLeft.setPower(1);
+//                    robot.arm.intakeRight.setPower(-1);
 
                 }
                 if (gamepad2.dpad_right) { //drop middle
                     telemetry.addData("GP2 Input", "D-Pad Right");
                     telemetry.addData("GP2 Input level", "Lower Bucket");
                     robot.arm.moveArmToLevel(1);
-                    robot.arm.pitchServo.setPosition(0.8);
-                    robot.arm.intakeLeft.setPower(-1);
-                    robot.arm.intakeRight.setPower(1);
+//                    robot.arm.pitchServo.setPosition(0.8);
+//                    robot.arm.intakeLeft.setPower(-1);
+//                    robot.arm.intakeRight.setPower(1);
                 }
                 if (gamepad2.dpad_up) { //drop bottom
                     telemetry.addData("GP2 Input", "D-Pad Up");
                     telemetry.addData("GP2 Input level", "Upper Bucket");
                     robot.arm.moveArmToLevel(2);
-                    robot.arm.pitchServo.setPosition(0.8); //TODO fix angle on field ASAP (needs to be upwards TT-TT)
-                    robot.arm.intakeLeft.setPower(-1);
-                    robot.arm.intakeRight.setPower(1);
+//                    robot.arm.pitchServo.setPosition(0.8); //TODO fix angle on field ASAP (needs to be upwards TT-TT)
+//                    robot.arm.intakeLeft.setPower(-1);
+//                    robot.arm.intakeRight.setPower(1);
                 }
 
 
