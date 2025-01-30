@@ -34,8 +34,15 @@ public class DejaVuArm {
     {
         //100 = 1 inch
         level_map.put(0, 0 );//ground
-        level_map.put(1, -1620);//lower bucket
+        level_map.put(1, -1700);//lower bucket
         level_map.put(2, -2800);//upper bucket
+
+        level_map.put(3, 620);//rotate up
+        level_map.put(6, 760);//rotate up
+
+        level_map.put(4, 200);// moving to hold pos
+        level_map.put(5, 100);// hold pos
+
 
     }
 
@@ -97,12 +104,12 @@ public class DejaVuArm {
 
 
 
-    public void moveArmToLevel(int level) {
+    public void moveArmToLevel(int level, DcMotorEx motor, double power) {
 
         sendToTelemetry("moveArmToLevel:" + level);
         if(level != currentLevel) {
 
-            armExtension.setPower(1);
+            motor.setPower(power);
 
             //GO ONE LEVEL DOWN AT FULL speed\
             int height = level_map.get(level);
@@ -113,24 +120,24 @@ public class DejaVuArm {
 //                armExtension.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 //            }
             //checking if going up
-            sendToTelemetry("currentPosition:" + armExtension.getCurrentPosition());
+            sendToTelemetry("currentPosition:" + motor.getCurrentPosition());
 
             sendToTelemetry("setting to height:" + height);
-            armExtension.setTargetPosition(height);
+            motor.setTargetPosition(height);
 
             //setting the armMotor's target
             sendToTelemetry("starting motor");
-            armExtension.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
 
             sendToTelemetry("turning on motor power");
-            while (armExtension.isBusy()) {
+            while (motor.isBusy()) {
 
 //                armMotor1.setPower(1);
 //                armMotor2.setPower(1);
 
                 Log.d(TAG, "motor1 going to level (" + level + ") expected height ("
-                        + height + ") current height:" + armExtension.getCurrentPosition());
+                        + height + ") current height:" + motor.getCurrentPosition());
 
 //                if(armMotor1.getCurrentPosition() == armMotor1.getTargetPosition() || armMotor2.getCurrentPosition() == armMotor2.getTargetPosition()){
 //                    break;
@@ -145,9 +152,9 @@ public class DejaVuArm {
 //                    }
 //                }
             }
-            sendToTelemetry("motor completed to level (" + level + ") current height:" + armExtension.getCurrentPosition());
+            sendToTelemetry("motor completed to level (" + level + ") current height:" + motor.getCurrentPosition());
             Log.d(TAG, "motor completed to level (" + level + ") expected height ("
-                    + height + ") current height:" + armExtension.getTargetPosition());
+                    + height + ") current height:" + motor.getTargetPosition());
             //motor done/break
             sendToTelemetry("Applying Brakes!");
 //            if(level == 0){
@@ -182,8 +189,8 @@ public class DejaVuArm {
 //                Log.d(TAG, "Reset Motor");
 //            }
 
-            armExtension.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            armExtension.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+            motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            motor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
 
             sendToTelemetry("Breaking" );
