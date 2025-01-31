@@ -108,8 +108,8 @@ public class GamePadOpMode extends LinearOpMode {
                 } else {
                     robot.leftFrontMotor.setPower(leftPower);
                     robot.rightFrontMotor.setPower(rightPower);
-                    robot.rightBackMotor.setPower(rightPower);
-                    robot.leftBackMotor.setPower(leftPower);
+                    robot.rightBackMotor.setPower(leftPower);
+                    robot.leftBackMotor.setPower(rightPower);
                 }
 
 
