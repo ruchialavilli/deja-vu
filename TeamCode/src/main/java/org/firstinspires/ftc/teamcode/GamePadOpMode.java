@@ -97,7 +97,7 @@ public class GamePadOpMode extends LinearOpMode {
 //                telemetry.addData("GP1 drive set to:", "" + drive);
 //                telemetry.addData("GP1 turn set to:", "" + turn);
 
-                if (gamepad1.left_bumper) {
+                if (gamepad1.left_trigger != 0) {
                     leftPower = leftPower *0.4;
                     rightPower = rightPower *0.4;
                     turnPower = turnPower *0.4;
@@ -234,15 +234,15 @@ public class GamePadOpMode extends LinearOpMode {
         public void run() {
             while (opModeIsActive()) {
 
-                if (gamepad2.right_trigger != 0) {  //outtake
-                    telemetry.addData("GP2 Input", "Right Trigger");
-                    telemetry.addData("GP2 Input level", "Outtake");
+                if (gamepad1.left_bumper) {  //outtake
+                    telemetry.addData("GP1 Input", "Left Bumper");
+                    telemetry.addData("GP1 Input level", "Outtake");
                     robot.arm.intakeLeft.setPower(-1);
                     robot.arm.intakeRight.setPower(1);
                 }
-                else if (gamepad2.left_trigger != 0) {  //intake
-                    telemetry.addData("GP2 Input", "Left Trigger");
-                    telemetry.addData("GP2 Input level", "Intake");
+                else if (gamepad1.right_bumper) {  //intake
+                    telemetry.addData("GP1 Input", "Right Bumper");
+                    telemetry.addData("GP1 Input level", "Intake");
                     robot.arm.intakeLeft.setPower(1);
                     robot.arm.intakeRight.setPower(-1);
                 }
