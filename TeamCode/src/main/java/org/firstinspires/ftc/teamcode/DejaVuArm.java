@@ -60,10 +60,10 @@ public class DejaVuArm {
         this.intakeRight = hwMap.crservo.get("intakeRight");
 
         armRotation.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armRotation.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //armRotation.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         armExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armExtension.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //armExtension.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         armExtension.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
         armRotation.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
