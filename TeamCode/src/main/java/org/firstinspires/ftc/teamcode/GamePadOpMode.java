@@ -241,7 +241,7 @@ public class GamePadOpMode extends LinearOpMode {
                     robot.arm.intakeRight.setPower(1);
                 }
                 else if (gamepad2.left_trigger != 0) {  //intake
-                    telemetry.addData("GP2 Input", "Right Trigger");
+                    telemetry.addData("GP2 Input", "Left Trigger");
                     telemetry.addData("GP2 Input level", "Intake");
                     robot.arm.intakeLeft.setPower(1);
                     robot.arm.intakeRight.setPower(-1);
