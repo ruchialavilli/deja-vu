@@ -137,24 +137,23 @@ public class GamePadOpMode extends LinearOpMode {
                 robot.arm.armExtension.setPower(extendPower);
 
 
-//                //TODO do we want fixed arm-levels? if so, where to place on gamepad?
 //                //just for fixing arm extension when it goes out too much
-//                if (gamepad1.y) { //pick
-//                    telemetry.addData("GP2 Input", "Y");
-//                    telemetry.addData("GP2 Input level", "Pick Specimen");
-//                    robot.arm.moveArmToLevel(0, robot.arm.armExtension, 1);
-//
-//                }
-//                if (gamepad1.x) { //drop middle
-//                    telemetry.addData("GP2 Input", "X");
-//                    telemetry.addData("GP2 Input level", "Lower Bucket");
-//                    robot.arm.moveArmToLevel(1, robot.arm.armExtension, 1);
-//                }
-//                if (gamepad1.b) { //drop top
-//                    telemetry.addData("GP2 Input", "B");
-//                    telemetry.addData("GP2 Input level", "Upper Bucket");
-//                    robot.arm.moveArmToLevel(2, robot.arm.armExtension, 1);
-//                }
+                if (gamepad2.b) { //pick
+                    telemetry.addData("GP2 Input", "B");
+                    telemetry.addData("GP2 Input level", "Pick Specimen");
+                    robot.arm.moveArmToLevel(0, robot.arm.armExtension, 1);
+
+                }
+                if (gamepad2.x) { //drop middle
+                    telemetry.addData("GP2 Input", "X");
+                    telemetry.addData("GP2 Input level", "Lower Bucket");
+                    robot.arm.moveArmToLevel(1, robot.arm.armExtension, 1);
+                }
+                if (gamepad2.y) { //drop top
+                    telemetry.addData("GP2 Input", "Y");
+                    telemetry.addData("GP2 Input level", "Upper Bucket");
+                    robot.arm.moveArmToLevel(2, robot.arm.armExtension, 1);
+                }
 
 
                 telemetry.addData("GP2 armMotor armExtension value", robot.arm.armExtension.getCurrentPosition());
@@ -235,18 +234,19 @@ public class GamePadOpMode extends LinearOpMode {
         public void run() {
             while (opModeIsActive()) {
 
-                if (gamepad2.y) {  //outtake
+                if (gamepad2.right_trigger != 0) {  //outtake
+                    telemetry.addData("GP2 Input", "Right Trigger");
+                    telemetry.addData("GP2 Input level", "Outtake");
                     robot.arm.intakeLeft.setPower(-1);
                     robot.arm.intakeRight.setPower(1);
                 }
-                else if (gamepad2.a) {  //intake
+                else if (gamepad2.left_trigger != 0) {  //intake
+                    telemetry.addData("GP2 Input", "Right Trigger");
+                    telemetry.addData("GP2 Input level", "Intake");
                     robot.arm.intakeLeft.setPower(1);
                     robot.arm.intakeRight.setPower(-1);
                 }
-                else if (gamepad2.b){ //stops moving
-                    robot.arm.intakeLeft.setPower(0);
-                    robot.arm.intakeRight.setPower(0);
-                }
+
 
                 telemetry.update();
             } //end of while loop
