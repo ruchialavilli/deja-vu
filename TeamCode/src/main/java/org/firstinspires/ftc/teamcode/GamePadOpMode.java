@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
+//TODO: RESENT PITCH POSITIONS BC INTAKE BROKE
 @TeleOp(name="GamePadOpMode", group="Linear OpMode")
 public class GamePadOpMode extends LinearOpMode {
     private static final String TAG = "GamePadOpMode";

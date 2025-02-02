@@ -9,18 +9,16 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "BucketAuton", group = "Autonomous")
-public class BucketAuton extends BaseAutoVisionOpMode{
+@Autonomous(name = "BasicAuton", group = "Autonomous")
+public class BasicAuton extends BaseAutoVisionOpMode{
 
-    //TODO: RESET ARM POSITIONS BC INTAKE BROKE
-
-    private String TAG = "BucketAuton";
+    private String TAG = "BasicAuton";
 
     public static String PITCH_TOP = "pitch_top_bucket";
     public static String PITCH_PICK = "pitch_pick";
@@ -57,13 +55,13 @@ public class BucketAuton extends BaseAutoVisionOpMode{
                 sleep(500);
                 robot.arm.intakeLeft.setPower(0);
                 robot.arm.intakeRight.setPower(0);
+                robot.arm.pitchServo.setPosition(0.9);
                 robot.arm.moveArmToLevel(0, robot.arm.armExtension, 1);
                 sleep(1000);
-                robot.arm.pitchServo.setPosition(0.9);
                 robot.arm.moveArmToLevel(4, robot.arm.armRotation, 0.5);
                 sleep(1000);
                 robot.arm.moveArmToLevel(5, robot.arm.armRotation, 0.7);
-                sleep(200);
+                sleep(500);
                 robot.arm.pitchServo.setPosition(0.6);
                 robot.arm.intakeLeft.setPower(1);
                 robot.arm.intakeRight.setPower(-1);
@@ -73,8 +71,6 @@ public class BucketAuton extends BaseAutoVisionOpMode{
 
                 return false;
             }
-
-
         }
         public Action scoreBlock() {
             return new ArmScore();
@@ -83,7 +79,7 @@ public class BucketAuton extends BaseAutoVisionOpMode{
         public class ArmPick implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                sleep(200);
+                sleep(400);
                 robot.arm.intakeLeft.setPower(0);
                 robot.arm.intakeRight.setPower(0);
                 robot.arm.pitchServo.setPosition(0.9);
@@ -95,37 +91,6 @@ public class BucketAuton extends BaseAutoVisionOpMode{
         public Action pickBlock() {
             return new ArmPick();
         }
-
-        public class EndScore implements Action {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                robot.arm.moveArmToLevel(3, robot.arm.armRotation, 0.4);
-                sleep(500);
-                robot.arm.pitchServo.setPosition(0.7);
-                sleep(1000);
-                robot.arm.moveArmToLevel(6, robot.arm.armRotation, 0.6);
-                sleep(500);
-                robot.arm.moveArmToLevel(2, robot.arm.armExtension, 1);
-                sleep(800);
-                robot.arm.intakeLeft.setPower(-1);
-                robot.arm.intakeRight.setPower(1);
-                sleep(500);
-                robot.arm.intakeLeft.setPower(0);
-                robot.arm.intakeRight.setPower(0);
-                robot.arm.moveArmToLevel(0, robot.arm.armExtension, 1);
-                sleep(1000);
-                robot.arm.pitchServo.setPosition(0.9);
-                robot.arm.moveArmToLevel(7, robot.arm.armRotation, 0.5);
-
-
-
-                return false;
-            }
-        }
-        public Action endScore() {
-            return new EndScore();
-        }
-
 
 
     }
@@ -155,7 +120,7 @@ public class BucketAuton extends BaseAutoVisionOpMode{
                     case 999:
                         //TODO score top bucket - pitch servo
 //                        Log.d(TAG, "executing arm action: Open");
-                        robot.arm.pitchServo.setPosition(0.7);
+                        robot.arm.pitchServo.setPosition(0.5);
 //                        Log.d(TAG, "executing arm action: Open Done");
                         break;
                     case 888:
@@ -218,34 +183,9 @@ public class BucketAuton extends BaseAutoVisionOpMode{
 ////                .strafeTo(new Vector2d(46, 30))
 ////                .waitSeconds(3);
 
-        Action move1 = drive.actionBuilder(initialPose)
-                .lineToX(20)
-                .turn(Math.toRadians(-51))
-                .lineToX(8)
-                .build();
-
-        Action move2 = drive.actionBuilder(new Pose2d(10, 11, Math.toRadians(0)))
-                .lineToX(22)
-                .build();
-
-        Action move3 = drive.actionBuilder(new Pose2d(8, 15, Math.toRadians(0)))
-                .turn(Math.toRadians(-51))
-                .lineToX(8)
-                .build();
-
-        Action move4 = drive.actionBuilder(new Pose2d(9, 19, Math.toRadians(0)))
-                .lineToX(22)
-                .build();
-
-        Action move5 = drive.actionBuilder(new Pose2d(8, 15, Math.toRadians(0)))
-                .turn(Math.toRadians(-51))
-                .lineToX(8)
-                .build();
-
-        Action move6 = drive.actionBuilder(new Pose2d(9, 15, Math.toRadians(90)))
-                .lineToY(15) //TODO: test parking pos
-                .build();
-
+//        Action move1 = drive.actionBuilder(initialPose)
+//                .strafeTo(new Vector2d(5, 24))
+//                .build();
 
 
 
@@ -283,25 +223,10 @@ public class BucketAuton extends BaseAutoVisionOpMode{
 //                        .build());
 
         Actions.runBlocking(
-                new SequentialAction(
-                        move1,
-                        score.scoreBlock(),
-                        move2,
-                        score.pickBlock(),
-                        move3,
-                        score.scoreBlock(),
-                        move4,
-                        score.pickBlock(),
-                        move5,
-                        score.endScore()
-//                        move6 //park
-//                        score.pickBlock(),
-//                        move7,
-//                        score.scoreBlock(),
-//                        move8
+                drive.actionBuilder(initialPose)
+                        .strafeTo(new Vector2d(5, 24))
+                        .build());
 
-                        )
-        );
 
 
 

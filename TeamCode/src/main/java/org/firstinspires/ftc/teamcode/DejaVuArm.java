@@ -42,6 +42,8 @@ public class DejaVuArm {
 
         level_map.put(4, 150);// moving to hold pos
         level_map.put(5, 100);// hold pos
+        level_map.put(7, 300);// hold pos
+
 
 
     }
