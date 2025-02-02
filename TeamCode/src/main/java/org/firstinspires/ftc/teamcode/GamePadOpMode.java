@@ -249,7 +249,7 @@ public class GamePadOpMode extends LinearOpMode {
                 if (gamepad2.dpad_left) { //steep pos
                     telemetry.addData("GP2 Input", "D-Pad Left");
                     telemetry.addData("GP2 Input level", "Steep Pick Pos");
-                    robot.arm.pitchServo.setPosition(0.5); //TODO test pos with Drivers
+                    robot.arm.pitchServo.setPosition(0.5);
 
                 }
 
