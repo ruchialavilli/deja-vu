@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -32,7 +33,9 @@ public class GamePadOpMode extends LinearOpMode {
         telemetry.update();
 
         // Wait for the game to start (set pitchServo position)
-        robot.arm.pitchServo.setPosition(0.8);
+        telemetry.addData("Servo Pos", robot.arm.pitchServo.getPosition());
+        robot.arm.pitchServo.setPosition(0.9);
+        telemetry.addData("Servo Pos", robot.arm.pitchServo.getPosition());
         robot.arm.moveArmToLevel(5, robot.arm.armRotation, 0.5);
 
         waitForStart();
@@ -138,22 +141,22 @@ public class GamePadOpMode extends LinearOpMode {
 
 
 //                //just for fixing arm extension when it goes out too much
-                if (gamepad2.b) { //pick
-                    telemetry.addData("GP2 Input", "B");
-                    telemetry.addData("GP2 Input level", "Pick Specimen");
-                    robot.arm.moveArmToLevel(0, robot.arm.armExtension, 1);
-
-                }
-                if (gamepad2.x) { //drop middle
-                    telemetry.addData("GP2 Input", "X");
-                    telemetry.addData("GP2 Input level", "Lower Bucket");
-                    robot.arm.moveArmToLevel(1, robot.arm.armExtension, 1);
-                }
-                if (gamepad2.y) { //drop top
-                    telemetry.addData("GP2 Input", "Y");
-                    telemetry.addData("GP2 Input level", "Upper Bucket");
-                    robot.arm.moveArmToLevel(2, robot.arm.armExtension, 1);
-                }
+//                if (gamepad2.a) { //pick
+//                    telemetry.addData("GP2 Input", "A");
+//                    telemetry.addData("GP2 Input level", "Pick Specimen");
+//                    robot.arm.moveArmToLevel(0, robot.arm.armExtension, 1);
+//
+//                }
+////                if (gamepad2.x) { //drop middle
+////                    telemetry.addData("GP2 Input", "X");
+////                    telemetry.addData("GP2 Input level", "Lower Bucket");
+////                    robot.arm.moveArmToLevel(1, robot.arm.armExtension, 1);
+////                }
+//                if (gamepad2.y) { //drop top
+//                    telemetry.addData("GP2 Input", "Y");
+//                    telemetry.addData("GP2 Input level", "Upper Bucket");
+//                    robot.arm.moveArmToLevel(2, robot.arm.armExtension, 1);
+//                }
 
 
                 telemetry.addData("GP2 armMotor armExtension value", robot.arm.armExtension.getCurrentPosition());
@@ -175,21 +178,42 @@ public class GamePadOpMode extends LinearOpMode {
 
                 telemetry.addData("GP2 armRotation value", robot.arm.armRotation.getCurrentPosition());
 
-                if(gamepad2.right_bumper){
-                    telemetry.addData("GP2 Input", "Right Bumper");
+                if(gamepad2.y){
+                    telemetry.addData("GP2 Input", "Y");
                     telemetry.addData("GP2 Input level", "Arm Up");
                     Log.d(TAG, "armRotation current angle:" + robot.arm.armRotation.getCurrentPosition());
                     robot.arm.moveArmToLevel(3, robot.arm.armRotation, 0.4);
                     sleep(1000);
                     robot.arm.moveArmToLevel(6, robot.arm.armRotation, 0.4);
 
+                }else if(gamepad2.b){
+                    telemetry.addData("GP2 Input", "B");
+                    telemetry.addData("GP2 Input level", "Arm Down");
+                    robot.arm.pitchServo.setPosition(0.9);
+                    robot.arm.moveArmToLevel(4, robot.arm.armRotation, 0.4);
+//                    sleep(1000);
+//                    robot.arm.moveArmToLevel(5, robot.arm.armRotation, 0.4);
+
+                }else if(gamepad2.a){
+                    telemetry.addData("GP2 Input", "A");
+                    telemetry.addData("GP2 Input level", "Arm Down");
+                    robot.arm.pitchServo.setPosition(0.9);
+                    robot.arm.moveArmToLevel(5, robot.arm.armRotation, 0.4);
+//                    sleep(1000);
+//                    robot.arm.moveArmToLevel(5, robot.arm.armRotation, 0.4);
+
+                } else if(gamepad2.right_bumper){
+                    telemetry.addData("GP2 Input", "Right Bumper");
+                    telemetry.addData("GP2 Input level", "Arm Up");
+                    robot.arm.armRotation.setTargetPosition(robot.arm.armRotation.getCurrentPosition() + 10);
+                    robot.arm.armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                    robot.arm.armRotation.setPower(0.4);
                 }else if(gamepad2.left_bumper){
                     telemetry.addData("GP2 Input", "Left Bumper");
                     telemetry.addData("GP2 Input level", "Arm Down");
-                    robot.arm.moveArmToLevel(4, robot.arm.armRotation, 0.5);
-                    sleep(1000);
-                    robot.arm.moveArmToLevel(5, robot.arm.armRotation, 0.5);
-
+                    robot.arm.armRotation.setTargetPosition(robot.arm.armRotation.getCurrentPosition() - 10);
+                    robot.arm.armRotation.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                    robot.arm.armRotation.setPower(0.4);
                 }
 
 
@@ -208,17 +232,24 @@ public class GamePadOpMode extends LinearOpMode {
                 if (gamepad2.dpad_down) { //pick
                     telemetry.addData("GP2 Input", "D-Pad Down");
                     telemetry.addData("GP2 Input level", "Pick Specimen");
-                    robot.arm.pitchServo.setPosition(0.4);
+                    robot.arm.pitchServo.setPosition(0.55);
                 }
-                if (gamepad2.dpad_left) { //drop middle
+                if (gamepad2.dpad_right) { //drop middle
                     telemetry.addData("GP2 Input", "D-Pad Right");
                     telemetry.addData("GP2 Input level", "Lower Bucket");
-                    robot.arm.pitchServo.setPosition(0.8);
+                    robot.arm.pitchServo.setPosition(0.7);
                 }
                 if (gamepad2.dpad_up) { //drop top
                     telemetry.addData("GP2 Input", "D-Pad Up");
                     telemetry.addData("GP2 Input level", "Upper Bucket");
-                    robot.arm.pitchServo.setPosition(0.5);
+                    robot.arm.pitchServo.setPosition(0.6);
+
+                }
+
+                if (gamepad2.dpad_left) { //steep pos
+                    telemetry.addData("GP2 Input", "D-Pad Left");
+                    telemetry.addData("GP2 Input level", "Steep Pick Pos");
+                    robot.arm.pitchServo.setPosition(0.5); //TODO test pos with Drivers
 
                 }
 
@@ -239,12 +270,18 @@ public class GamePadOpMode extends LinearOpMode {
                     telemetry.addData("GP1 Input level", "Outtake");
                     robot.arm.intakeLeft.setPower(-1);
                     robot.arm.intakeRight.setPower(1);
+                } else {
+                    robot.arm.intakeLeft.setPower(0);
+                    robot.arm.intakeRight.setPower(0);
                 }
-                else if (gamepad1.right_bumper) {  //intake
+                if (gamepad1.right_bumper) {  //intake
                     telemetry.addData("GP1 Input", "Right Bumper");
                     telemetry.addData("GP1 Input level", "Intake");
                     robot.arm.intakeLeft.setPower(1);
                     robot.arm.intakeRight.setPower(-1);
+                }else {
+                    robot.arm.intakeLeft.setPower(0);
+                    robot.arm.intakeRight.setPower(0);
                 }
 
 

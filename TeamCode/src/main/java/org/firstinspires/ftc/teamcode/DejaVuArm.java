@@ -40,7 +40,7 @@ public class DejaVuArm {
         level_map.put(3, 620);//rotate up
         level_map.put(6, 760);//rotate up
 
-        level_map.put(4, 200);// moving to hold pos
+        level_map.put(4, 150);// moving to hold pos
         level_map.put(5, 100);// hold pos
 
 
@@ -63,9 +63,9 @@ public class DejaVuArm {
         //armRotation.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         armExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //armExtension.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armExtension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        armExtension.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        armExtension.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         armRotation.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
 
