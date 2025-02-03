@@ -46,7 +46,7 @@ public class BucketAuton extends BaseAutoVisionOpMode{
             public boolean run(@NonNull TelemetryPacket packet) {
                 robot.arm.moveArmToLevel(3, robot.arm.armRotation, 0.4);
                 sleep(500);
-                robot.arm.pitchServo.setPosition(0.7);
+                robot.arm.pitchServo.setPosition(0.25);
                 sleep(1000);
                 robot.arm.moveArmToLevel(6, robot.arm.armRotation, 0.6);
                 sleep(500);
@@ -59,12 +59,12 @@ public class BucketAuton extends BaseAutoVisionOpMode{
                 robot.arm.intakeRight.setPower(0);
                 robot.arm.moveArmToLevel(0, robot.arm.armExtension, 1);
                 sleep(1000);
-                robot.arm.pitchServo.setPosition(0.9);
+                robot.arm.pitchServo.setPosition(0.5);
                 robot.arm.moveArmToLevel(4, robot.arm.armRotation, 0.5);
                 sleep(1000);
                 robot.arm.moveArmToLevel(5, robot.arm.armRotation, 0.7);
                 sleep(200);
-                robot.arm.pitchServo.setPosition(0.6);
+                robot.arm.pitchServo.setPosition(0.1);
                 robot.arm.intakeLeft.setPower(1);
                 robot.arm.intakeRight.setPower(-1);
 
@@ -86,7 +86,7 @@ public class BucketAuton extends BaseAutoVisionOpMode{
                 sleep(200);
                 robot.arm.intakeLeft.setPower(0);
                 robot.arm.intakeRight.setPower(0);
-                robot.arm.pitchServo.setPosition(0.9);
+                robot.arm.pitchServo.setPosition(0.5);
 
 
                 return false;
@@ -101,7 +101,7 @@ public class BucketAuton extends BaseAutoVisionOpMode{
             public boolean run(@NonNull TelemetryPacket packet) {
                 robot.arm.moveArmToLevel(3, robot.arm.armRotation, 0.4);
                 sleep(500);
-                robot.arm.pitchServo.setPosition(0.7);
+                robot.arm.pitchServo.setPosition(0.25);
                 sleep(1000);
                 robot.arm.moveArmToLevel(6, robot.arm.armRotation, 0.6);
                 sleep(500);
@@ -113,8 +113,8 @@ public class BucketAuton extends BaseAutoVisionOpMode{
                 robot.arm.intakeLeft.setPower(0);
                 robot.arm.intakeRight.setPower(0);
                 robot.arm.moveArmToLevel(0, robot.arm.armExtension, 1);
-                sleep(1000);
-                robot.arm.pitchServo.setPosition(0.9);
+                sleep(800);
+                robot.arm.pitchServo.setPosition(0.1);
                 robot.arm.moveArmToLevel(7, robot.arm.armRotation, 0.5);
 
 
@@ -221,7 +221,7 @@ public class BucketAuton extends BaseAutoVisionOpMode{
         Action move1 = drive.actionBuilder(initialPose)
                 .lineToX(20)
                 .turn(Math.toRadians(-51))
-                .lineToX(8)
+                .lineToX(10)
                 .build();
 
         Action move2 = drive.actionBuilder(new Pose2d(10, 11, Math.toRadians(0)))
@@ -230,7 +230,7 @@ public class BucketAuton extends BaseAutoVisionOpMode{
 
         Action move3 = drive.actionBuilder(new Pose2d(8, 15, Math.toRadians(0)))
                 .turn(Math.toRadians(-51))
-                .lineToX(8)
+                .lineToX(10)
                 .build();
 
         Action move4 = drive.actionBuilder(new Pose2d(9, 19, Math.toRadians(0)))
@@ -239,7 +239,7 @@ public class BucketAuton extends BaseAutoVisionOpMode{
 
         Action move5 = drive.actionBuilder(new Pose2d(8, 15, Math.toRadians(0)))
                 .turn(Math.toRadians(-51))
-                .lineToX(8)
+                .lineToX(10)
                 .build();
 
         Action move6 = drive.actionBuilder(new Pose2d(9, 15, Math.toRadians(90)))
@@ -256,7 +256,6 @@ public class BucketAuton extends BaseAutoVisionOpMode{
 
 
 
-        sendMessage(ARM_DOWN);
 
 
         telemetry.addData(name, " Robot ready for run");
@@ -266,6 +265,9 @@ public class BucketAuton extends BaseAutoVisionOpMode{
 
         waitForStart();
         runtime.reset();
+
+        sendMessage(ARM_DOWN);
+
 
         if (isStopRequested()) {
             // quit() so we do not process any more messages
@@ -291,9 +293,9 @@ public class BucketAuton extends BaseAutoVisionOpMode{
                         move3,
                         score.scoreBlock(),
                         move4,
-                        score.pickBlock(),
-                        move5,
-                        score.endScore()
+                        score.pickBlock()
+//                        move5,
+//                        score.endScore()
 //                        move6 //park
 //                        score.pickBlock(),
 //                        move7,

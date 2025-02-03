@@ -196,7 +196,6 @@ public class BasicAuton extends BaseAutoVisionOpMode{
 
 
 
-        sendMessage(ARM_DOWN);
 
 
         telemetry.addData(name, " Robot ready for run");
@@ -206,6 +205,9 @@ public class BasicAuton extends BaseAutoVisionOpMode{
 
         waitForStart();
         runtime.reset();
+
+        sendMessage(ARM_DOWN);
+
 
         if (isStopRequested()) {
             // quit() so we do not process any more messages
@@ -224,7 +226,7 @@ public class BasicAuton extends BaseAutoVisionOpMode{
 
         Actions.runBlocking(
                 drive.actionBuilder(initialPose)
-                        .strafeTo(new Vector2d(5, 24))
+                        .strafeTo(new Vector2d(5, -24))
                         .build());
 
 
